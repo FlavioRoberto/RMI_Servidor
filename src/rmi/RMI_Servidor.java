@@ -6,8 +6,8 @@
 package rmi;
 
 import javax.swing.JOptionPane;
-import rmi.Controller.VendaController;
-import rmi.Model.Venda;
+import rmi.Controller.ProdutoController;
+import rmi.Model.Produto;
 
 /**
  *
@@ -20,14 +20,12 @@ public class RMI_Servidor {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+      
+        Produto produto = new Produto();
+        ProdutoController controller = new ProdutoController();
         
-       Venda venda = new Venda();
+      
         
-       VendaController controller = new VendaController();
-       
-       venda = controller.read(1);
-       venda.setQuantidade(4);
-       
        JOptionPane.showMessageDialog(null,controller.delete(1));
         
     }
