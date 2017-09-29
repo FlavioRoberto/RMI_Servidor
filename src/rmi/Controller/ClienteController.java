@@ -74,10 +74,10 @@ public class ClienteController {
       ConexaoBD conexao = new ConexaoBD();
       String sql = "update pessoa set nome = '"+cliente.getNome()+"',cpf='"+cliente.getCpf()+"',rg='"+cliente.getRg()+
                 "',telefone ='"+cliente.getTelefone()+"' where idPessoa = "+cliente.getIdPessoa()+";";
-      String sql2 =  "update cliente set tipo ='"+cliente.getTipo()+"' where idCliente = "+cliente.getIdCliente()+";";
+    //  String sql2 =  "update cliente set tipo ='"+cliente.getTipo()+"' where idCliente = "+cliente.getIdCliente()+";";
      
       retorno = conexao.sentenca.execute(sql);
-      retorno = conexao.sentenca.execute(sql2);
+   //   retorno = conexao.sentenca.execute(sql2);
       conexao.sentenca.close();
       conexao.connection.close();
       return "Cliente atualizado!";

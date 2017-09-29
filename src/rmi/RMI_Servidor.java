@@ -7,6 +7,7 @@ package rmi;
 
 import javax.swing.JOptionPane;
 import rmi.Controller.ClienteController;
+import rmi.Controller.PessoaController;
 import rmi.Model.Cliente;
 import rmi.Model.Pessoa;
 
@@ -22,13 +23,13 @@ public class RMI_Servidor {
     public static void main(String[] args) {
         // TODO code application logic here
         
-               
-        Cliente cliente = new Cliente();
-        ClienteController controller = new ClienteController();
-        cliente = controller.read(2);
+        Pessoa pessoa = new Pessoa();
+       
+        PessoaController controller = new PessoaController();
+       
+        pessoa = controller.read(2);
         
-        cliente.setNome("Bruno");
-        cliente.setTipo("user");
+        pessoa.setNome("mudou");
         
         JOptionPane.showMessageDialog(null,controller.delete(2));
         
