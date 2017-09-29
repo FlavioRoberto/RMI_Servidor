@@ -5,9 +5,19 @@
  */
 package rmi;
 
+import Application.formataData;
+import java.sql.Date;
 import javax.swing.JOptionPane;
+import rmi.Controller.ClienteController;
+import rmi.Controller.FuncionarioController;
+import rmi.Controller.OrdemServicoController;
 import rmi.Controller.ProdutoController;
+import rmi.Controller.VendaController;
+import rmi.Model.Cliente;
+import rmi.Model.Funcionario;
+import rmi.Model.OrdemServico;
 import rmi.Model.Produto;
+import rmi.Model.Venda;
 
 /**
  *
@@ -21,13 +31,14 @@ public class RMI_Servidor {
     public static void main(String[] args) {
         // TODO code application logic here
       
-        Produto produto = new Produto();
-        ProdutoController controller = new ProdutoController();
         
-      
+        OrdemServico ordemServico = new OrdemServico();
+        OrdemServicoController controller = new OrdemServicoController();
         
-       JOptionPane.showMessageDialog(null,controller.delete(1));
-        
+       
+       
+         JOptionPane.showMessageDialog(null, controller.delete(11));
+       
     }
     
 }
