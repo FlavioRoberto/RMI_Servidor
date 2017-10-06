@@ -37,7 +37,7 @@ public class RMI_Servidor {
         Pessoa pessoa = new Pessoa();
         PessoaController controller = new PessoaController();
        
-        pessoa = controller.findBy("cpf", "cpf");
+        pessoa = controller.findBy("idPessoa", 1);
         JOptionPane.showMessageDialog(null, pessoa.getNome());
        
     }
