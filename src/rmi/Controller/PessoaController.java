@@ -8,6 +8,7 @@ package rmi.Controller;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import rmi.Model.Pessoa;
 
 /**
@@ -43,9 +44,9 @@ public class PessoaController {
         
         return erro;
     }
-    
+    /*    
     public Pessoa read(int idPessoa){
-      
+  
         Pessoa pessoa = new Pessoa();
     
         try{       
@@ -72,6 +73,7 @@ public class PessoaController {
         }
       
     }
+*/
     
     public String update(Pessoa pessoa){ 
         String erro = "";
@@ -131,5 +133,32 @@ public class PessoaController {
         }
         
         return erro;
+    }
+    
+    public Pessoa findBy(String campo,Object valorProcurado){
+        Pessoa pessoa  = new Pessoa();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM pessoa WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+                pessoa.setCpf(rs.getString("cpf"));
+                pessoa.setIdPessoa(rs.getInt("idPessoa"));
+                pessoa.setNome(rs.getString("nome"));
+                pessoa.setRg(rs.getString("rg"));
+                pessoa.setTelefone(rs.getString("telefone"));
+                
+            }
+            //fecha conexao
+            rs.close();
+            conexao.sentenca.close();
+            conexao.connection.close();
+            return pessoa;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+           
+        }
+         return pessoa;
     }
 }

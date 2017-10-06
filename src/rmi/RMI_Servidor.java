@@ -11,11 +11,13 @@ import javax.swing.JOptionPane;
 import rmi.Controller.ClienteController;
 import rmi.Controller.FuncionarioController;
 import rmi.Controller.OrdemServicoController;
+import rmi.Controller.PessoaController;
 import rmi.Controller.ProdutoController;
 import rmi.Controller.VendaController;
 import rmi.Model.Cliente;
 import rmi.Model.Funcionario;
 import rmi.Model.OrdemServico;
+import rmi.Model.Pessoa;
 import rmi.Model.Produto;
 import rmi.Model.Venda;
 
@@ -32,12 +34,11 @@ public class RMI_Servidor {
         // TODO code application logic here
       
         
-        OrdemServico ordemServico = new OrdemServico();
-        OrdemServicoController controller = new OrdemServicoController();
-        
+        Pessoa pessoa = new Pessoa();
+        PessoaController controller = new PessoaController();
        
-       
-         JOptionPane.showMessageDialog(null, controller.delete(11));
+        pessoa = controller.findBy("cpf", "cpf");
+        JOptionPane.showMessageDialog(null, pessoa.getNome());
        
     }
     
