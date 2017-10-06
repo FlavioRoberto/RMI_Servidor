@@ -39,7 +39,6 @@ public class RMI_Servidor {
         ArrayList<Pessoa> pessoas = new ArrayList();
         PessoaController controller = new PessoaController();
        
-        pessoa = controller.findBy("idPessoa", 1);
         pessoas = controller.findByList("cpf", "cpf");
         
         for(Pessoa itemPessoa : pessoas){

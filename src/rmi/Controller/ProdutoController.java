@@ -9,6 +9,7 @@ import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import rmi.Model.Produto;
 
 /**
@@ -50,9 +51,7 @@ public class ProdutoController {
             String sql = "SELECT * FROM produto WHERE idProduto = "+idProduto;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
-                produto.setNome(rs.getString("nome"));
-                produto.setPreco(rs.getFloat("preco"));
-                produto.setIdProduto(rs.getInt("idProduto"));
+               produto = carregaProduto(rs);
             }
             
             rs.close();
@@ -114,5 +113,13 @@ public class ProdutoController {
         
         return erro;
         
+    }
+
+    private Produto carregaProduto(ResultSet rs) throws SQLException {
+          Produto produto = new Produto();
+           produto.setNome(rs.getString("nome"));
+                produto.setPreco(rs.getFloat("preco"));
+                produto.setIdProduto(rs.getInt("idProduto"));
+           return produto;     
     }
 }

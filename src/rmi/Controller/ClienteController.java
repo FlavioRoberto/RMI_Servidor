@@ -9,6 +9,7 @@ import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import rmi.Model.Cliente;
 import rmi.Model.Pessoa;
@@ -52,13 +53,7 @@ public class ClienteController {
      try{
          ResultSet rs = conexao.sentenca.executeQuery(sql); //responsavel por varrer a tabela em busca dos valores
          while(rs.next()){ //enquanto existir item carrega os valores no objeto
-            cliente.setCpf(rs.getString("cpf"));
-            cliente.setIdCliente(idCliente);
-            cliente.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
-            cliente.setNome(rs.getString("nome"));
-            cliente.setRg(rs.getString("rg"));
-            cliente.setTelefone(rs.getString("telefone"));
-            cliente.setTipo(rs.getString("tipo"));
+            cliente = carregaCliente(rs);
          }
          Conexao.closeConection(conexao); //ao sair do laço encerra a conexão
          return cliente;  //retorne o ciente
@@ -113,4 +108,18 @@ public class ClienteController {
      return erro;
  }
 
+ 
+ //metodo responscal por carregar em um objeto o cliente encontrdo pelo ResultSet
+ private Cliente carregaCliente(ResultSet rs) throws SQLException{
+    Cliente cliente = new Cliente();
+     cliente.setCpf(rs.getString("cpf"));
+            cliente.setIdCliente(rs.getInt("idCliente"));
+            cliente.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
+            cliente.setNome(rs.getString("nome"));
+            cliente.setRg(rs.getString("rg"));
+            cliente.setTelefone(rs.getString("telefone"));
+            cliente.setTipo(rs.getString("tipo"));
+      return cliente;      
+ }
+ 
 }

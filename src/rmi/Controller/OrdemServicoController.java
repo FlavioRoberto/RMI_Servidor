@@ -67,12 +67,7 @@ public class OrdemServicoController {
             String sql = "SELECT * FROM ordemservico WHERE idOrdemServico = "+idOrdemServico;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
-                os.setDataExp(new java.util.Date(rs.getDate("dataExp").getTime()));
-                os.setDataConclusao( new java.util.Date (rs.getDate("dataconclusao").getTime()));
-                os.setIdCliente(rs.getInt("Cliente_idCliente"));
-                os.setIdFuncionario(rs.getInt("Funcionario_idFuncionario"));
-                os.setIdVenda(rs.getInt("Venda_idVenda"));
-                os.setIdOrdemServico(rs.getInt("idordemServico"));
+               os = carregaOs(rs);
             }
             
             rs.close();
@@ -124,5 +119,16 @@ public class OrdemServicoController {
             erro += "Erro: \n"+e.getMessage();
         }
         return erro;
+    }
+
+    private OrdemServico carregaOs(ResultSet rs) throws SQLException {
+        OrdemServico os = new OrdemServico();
+         os.setDataExp(new java.util.Date(rs.getDate("dataExp").getTime()));
+                os.setDataConclusao( new java.util.Date (rs.getDate("dataconclusao").getTime()));
+                os.setIdCliente(rs.getInt("Cliente_idCliente"));
+                os.setIdFuncionario(rs.getInt("Funcionario_idFuncionario"));
+                os.setIdVenda(rs.getInt("Venda_idVenda"));
+                os.setIdOrdemServico(rs.getInt("idordemServico"));
+        return os;
     }
 }

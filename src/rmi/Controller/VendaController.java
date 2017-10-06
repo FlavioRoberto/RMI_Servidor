@@ -9,6 +9,7 @@ import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import rmi.Model.Venda;
 
 /**
@@ -48,8 +49,7 @@ public class VendaController {
             String sql = "SELECT * FROM venda WHERE idVenda = "+idVenda;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
-                venda.setQuantidade(rs.getInt("quantidade"));
-                venda.setIdVenda(rs.getInt("idVenda"));
+               venda = carregaVenda(rs);
               }
            rs.close();
           Conexao.closeConection(conexao);
@@ -103,5 +103,12 @@ public class VendaController {
         }
         
         return erro;
+    }
+
+    private Venda carregaVenda(ResultSet rs) throws SQLException {
+        Venda venda = new Venda();
+         venda.setQuantidade(rs.getInt("quantidade"));
+                venda.setIdVenda(rs.getInt("idVenda"));
+        return venda;        
     }
 }

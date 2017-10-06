@@ -9,6 +9,7 @@ import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import rmi.Model.Funcionario;
 
 /**
@@ -55,17 +56,9 @@ public class FuncionarioController {
            String sql = "SELECT * FROM funcionario INNER JOIN pessoa on idFuncionario = "+idFuncionario;
            ResultSet rs = conexao.sentenca.executeQuery(sql);
            while(rs.next()){
-               funcionario.setCpf(rs.getString("cpf"));
-               funcionario.setEspecialidade(rs.getString("especialidade"));
-               funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
-               funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
-               funcionario.setNome(rs.getString("nome"));
-               funcionario.setRg(rs.getString("rg"));
-               funcionario.setSalario(rs.getFloat("salario"));
-               funcionario.setTelefone(rs.getString("telefone"));
-               
+             funcionario = carregaFuncionario(rs);               
            } 
-           
+        
            rs.close();
            Conexao.closeConection(conexao);
           
@@ -129,5 +122,19 @@ public class FuncionarioController {
         
         return erro;
         
+    }
+
+    private Funcionario carregaFuncionario(ResultSet rs) throws SQLException {
+        Funcionario funcionario = new Funcionario();
+        funcionario.setCpf(rs.getString("cpf"));
+               funcionario.setEspecialidade(rs.getString("especialidade"));
+               funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
+               funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
+               funcionario.setNome(rs.getString("nome"));
+               funcionario.setRg(rs.getString("rg"));
+               funcionario.setSalario(rs.getFloat("salario"));
+               funcionario.setTelefone(rs.getString("telefone"));
+        
+        return funcionario;
     }
 }
