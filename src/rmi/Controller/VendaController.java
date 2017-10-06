@@ -5,6 +5,7 @@
  */
 package rmi.Controller;
 
+import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,7 +27,7 @@ public class VendaController {
             ps.setInt(1, venda.getQuantidade());
             retorno = ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return "Venda cadastrada!";
         }catch(Exception e){
@@ -51,9 +52,7 @@ public class VendaController {
                 venda.setIdVenda(rs.getInt("idVenda"));
               }
            rs.close();
-           conexao.sentenca.close();
-           conexao.connection.close();
-            
+          Conexao.closeConection(conexao);
            return venda; 
         }catch(Exception e){
           return null;    
@@ -67,8 +66,7 @@ public class VendaController {
             ConexaoBD conexao = new ConexaoBD();
             String sql = "UPDATE venda set quantidade ="+venda.getQuantidade()+" WHERE idVenda = "+venda.getIdVenda();
             conexao.sentenca.execute(sql);
-            conexao.sentenca.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             return "Venda atualizada!";
            
         }catch(Exception e){
@@ -92,7 +90,7 @@ public class VendaController {
             ps.setInt(1, idVenda);
             retorno = ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return "Venda excluida!";
             

@@ -5,6 +5,7 @@
  */
 package rmi.Controller;
 
+import Application.Conexao;
 import Application.formataData;
 import Util.ConexaoBD;
 import java.sql.Date;
@@ -33,7 +34,7 @@ public class OrdemServicoController {
             ps.setInt(5,ordemServico.getIdVenda());
             ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             return "Ordem de serviço atualizada!";
        }catch(SQLException e){
            return ("Erro: \n"+e.getMessage());
@@ -48,6 +49,7 @@ public class OrdemServicoController {
         try{
             ConexaoBD conexao = new ConexaoBD();
             String sql ="INSERT INTO ordemservico(dataExp,dataConclusao,Funcionario_idFuncionario,Cliente_idCliente,Venda_idVenda) VALUES (?,?,?,?,?)";
+            Conexao.closeConection(conexao);
             return erro = preparaPS(sql, ordemServico, conexao);
             
         }catch(Exception e){
@@ -74,7 +76,7 @@ public class OrdemServicoController {
             }
             
             rs.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return os;
             
@@ -95,6 +97,7 @@ public class OrdemServicoController {
                     + "Cliente_idCliente = ?,Venda_idVenda = ?;";
             //PreparedStatement ps = conexao.connection.prepareStatement(sql);
             erro = preparaPS(sql, ordemServico, conexao);
+            Conexao.closeConection(conexao);
         }catch(Exception e){
             erro += "Erro:\n"+e.getMessage();
         }
@@ -112,7 +115,7 @@ public class OrdemServicoController {
             ps.setInt(1, idOrdemServico);
             ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return "Ordem de serviço removida!";
         }catch(SQLException e){

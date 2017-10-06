@@ -5,6 +5,7 @@
  */
 package rmi.Controller;
 
+import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,7 +29,7 @@ public class ProdutoController {
             ps.setFloat(2, produto.getPreco());
             retorno =  ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             return "Produto cadastrado!";
         }catch(Exception e){
             erro = "Erro: \n"+e.getMessage();
@@ -55,8 +56,7 @@ public class ProdutoController {
             }
             
             rs.close();
-            conexao.sentenca.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
         }catch(Exception e){
          //erro = "Erro: \n"+e.getMessage();
@@ -77,7 +77,7 @@ public class ProdutoController {
             ps.setInt(3, produto.getIdProduto());
             retorno = ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return "Produto atualizado!";
         }catch(Exception e){
@@ -101,7 +101,7 @@ public class ProdutoController {
             ps.setInt(1, idProduto);
             retorno = ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
            
             return  "Produto removido!";
         }catch(Exception e){

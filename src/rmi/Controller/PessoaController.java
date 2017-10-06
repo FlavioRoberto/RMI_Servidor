@@ -5,9 +5,12 @@
  */
 package rmi.Controller;
 
+import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import rmi.Model.Pessoa;
 
@@ -32,7 +35,7 @@ public class PessoaController {
             retorno = ps.executeUpdate();
             ps.close();
             
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             return "Pessoa adicionada!";
         }catch(Exception e){
             erro = "erro \n"+e.getMessage();
@@ -93,7 +96,7 @@ public class PessoaController {
           retorno = ps.executeUpdate();
           
           ps.close();
-          conexao.connection.close();
+          Conexao.closeConection(conexao);
           
           return "Pessoa Atualizada!";
          
@@ -119,8 +122,7 @@ public class PessoaController {
             ConexaoBD conexao = new ConexaoBD();
             String sql = "DELETE FROM pessoa where idPessoa = "+idPessoa;
             retorno = conexao.sentenca.execute(sql);
-            conexao.sentenca.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return "Pessoa removida!";
             
@@ -143,17 +145,12 @@ public class PessoaController {
             String sql = "SELECT * FROM pessoa WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
-                pessoa.setCpf(rs.getString("cpf"));
-                pessoa.setIdPessoa(rs.getInt("idPessoa"));
-                pessoa.setNome(rs.getString("nome"));
-                pessoa.setRg(rs.getString("rg"));
-                pessoa.setTelefone(rs.getString("telefone"));
-                
+               pessoa = carregaPessoa(rs);  
             }
             //fecha conexao
             rs.close();
-            conexao.sentenca.close();
-            conexao.connection.close();
+            //metodo que fecha a conexao
+            Conexao.closeConection(conexao);
             return pessoa;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
@@ -161,4 +158,37 @@ public class PessoaController {
         }
          return pessoa;
     }
+    
+    
+    public ArrayList<Pessoa> findByList(String campo, Object valor){
+        ArrayList<Pessoa> pessoas = new ArrayList();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM pessoa WHERE "+campo.toLowerCase()+"="+valor;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+                Pessoa pessoa = carregaPessoa(rs);
+                pessoas.add(pessoa);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+        }
+        
+        return pessoas;
+    }
+    
+    
+    private Pessoa carregaPessoa(ResultSet rs) throws SQLException{
+         Pessoa pessoa = new Pessoa();
+         pessoa.setCpf(rs.getString("cpf"));
+         pessoa.setIdPessoa(rs.getInt("idPessoa"));
+         pessoa.setNome(rs.getString("nome"));
+         pessoa.setRg(rs.getString("rg"));
+         pessoa.setTelefone(rs.getString("telefone"));
+         return pessoa;
+    }
+    
+    
+    
 }

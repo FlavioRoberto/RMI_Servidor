@@ -5,6 +5,7 @@
  */
 package rmi.Controller;
 
+import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +32,7 @@ public class FuncionarioController {
             ps.setInt(3,funcionario.getIdPessoa());
             retorno = ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return "Inserido com sucesso";
             
@@ -66,8 +67,7 @@ public class FuncionarioController {
            } 
            
            rs.close();
-           conexao.sentenca.close();
-           conexao.connection.close();
+           Conexao.closeConection(conexao);
           
            return funcionario;
         }catch(Exception e){
@@ -91,7 +91,7 @@ public class FuncionarioController {
             ps.setInt(4,funcionario.getIdFuncionario());
             retorno = ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return "Funcionário atualizado!";
             
@@ -116,7 +116,7 @@ public class FuncionarioController {
             ps.setInt(1, idFuncionario);
             retorno = ps.executeUpdate();
             ps.close();
-            conexao.connection.close();
+            Conexao.closeConection(conexao);
             
             return  "Funcionário removido!";
         }catch(Exception e){

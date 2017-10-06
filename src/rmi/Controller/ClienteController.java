@@ -5,6 +5,7 @@
  */
 package rmi.Controller;
 
+import Application.Conexao;
 import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,8 +30,8 @@ public class ClienteController {
          ps.setInt(2, cliente.getIdPessoa());
          retorno = ps.executeUpdate(); //executa a acao pra salvar no banco e armazena seu retornno
          ps.close(); //encerra o preparete statement
-         conexao.connection.close();//fecha a conexão com o banco
-        
+         Conexao.closeConection(conexao);
+         
      }catch(Exception e){
           erro += ("Erro ao adicionar cliente: \n"+e.getMessage()); //se houver uma falha no try catch
           return erro;
@@ -59,7 +60,7 @@ public class ClienteController {
             cliente.setTelefone(rs.getString("telefone"));
             cliente.setTipo(rs.getString("tipo"));
          }
-         conexao.connection.close(); //ao sair do laço encerra a conexão
+         Conexao.closeConection(conexao); //ao sair do laço encerra a conexão
          return cliente;  //retorne o ciente
          
      }catch(Exception e){
@@ -78,8 +79,7 @@ public class ClienteController {
      
       retorno = conexao.sentenca.execute(sql);
    //   retorno = conexao.sentenca.execute(sql2);
-      conexao.sentenca.close();
-      conexao.connection.close();
+      Conexao.closeConection(conexao);
       return "Cliente atualizado!";
 
     }catch(Exception e){
@@ -102,7 +102,7 @@ public class ClienteController {
          ps.setInt(1, idCliente);
          retorno = ps.executeUpdate();
          ps.close();
-         conexao.connection.close();
+         Conexao.closeConection(conexao);
          return "Apagado com sucesso!";
      }catch(Exception e){
          erro = "Erro \n"+e.getMessage();
