@@ -7,19 +7,25 @@ package rmi.Controller;
 
 import Application.Conexao;
 import Util.ConexaoBD;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import rmi.Interface.IControllerBase;
 import rmi.Model.Funcionario;
 
 /**
  *
  * @author Admin
  */
-public class FuncionarioController {
+public class FuncionarioController extends UnicastRemoteObject implements IControllerBase {
+   
+    public FuncionarioController() throws RemoteException{}
     
-    public String create(Funcionario funcionario){
-        
+     @Override  
+    public String create(Object funcionarioObject){
+        Funcionario funcionario = (Funcionario)funcionarioObject;
         String erro = "";
         int retorno = 0;
         
@@ -48,6 +54,7 @@ public class FuncionarioController {
         return erro;
     }
     
+     @Override  
     public Funcionario read(int idFuncionario){
         Funcionario funcionario = new Funcionario();
         
@@ -69,8 +76,9 @@ public class FuncionarioController {
         
     }
 
-    public String update(Funcionario funcionario){
-     
+     @Override  
+    public String update(Object funcionarioObject){
+        Funcionario funcionario = (Funcionario)funcionarioObject;
         String erro = "";
         int retorno = 0;
         try{
@@ -98,7 +106,8 @@ public class FuncionarioController {
         
         return erro;
     }
-
+    
+    @Override  
     public String delete (int idFuncionario){
         String erro ="";
         int retorno = 0;

@@ -7,9 +7,12 @@ package rmi.Controller;
 
 import Application.Conexao;
 import Util.ConexaoBD;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import rmi.Interface.IControllerBase;
 import rmi.Model.Produto;
 
 /**
@@ -17,9 +20,13 @@ import rmi.Model.Produto;
  * @author Admin
  */
 
-public class ProdutoController {
+public class ProdutoController extends UnicastRemoteObject implements IControllerBase {
     
-    public String create(Produto produto){
+    public ProdutoController()throws RemoteException{}
+    
+    @Override
+    public String create(Object produtoObj){
+        Produto produto = (Produto) produtoObj;
         String erro = "";
         int retorno = 0;
         try{
@@ -43,6 +50,7 @@ public class ProdutoController {
         return erro;
     }
 
+    @Override
     public Produto read(int idProduto){
      Produto produto = new Produto();
        // String erro = "";
@@ -64,7 +72,9 @@ public class ProdutoController {
         return produto;
     }
 
-    public String update(Produto produto){
+    @Override
+    public String update(Object produtoObj){
+       Produto produto = (Produto)produtoObj; 
        String erro = "";
        int retorno = 0;
         try{
@@ -90,6 +100,7 @@ public class ProdutoController {
         return erro;
     }
     
+    @Override
     public String delete(int idProduto){
         int retorno = 0;
         String erro = "";

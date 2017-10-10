@@ -8,6 +8,8 @@ package rmi.Controller;
 import Application.Conexao;
 import Application.formataData;
 import Util.ConexaoBD;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,15 +17,19 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import javafx.scene.input.DataFormat;
 import javax.swing.JOptionPane;
+import rmi.Interface.IControllerBase;
 import rmi.Model.OrdemServico;
 
 /**
  *
  * @author Admin
  */
-public class OrdemServicoController {
-     //metodo criado pra reaproveitar o codigo no metodo create and update
-     private String preparaPS(String sql,OrdemServico ordemServico,ConexaoBD conexao){
+public class OrdemServicoController extends UnicastRemoteObject implements IControllerBase{
+
+ public OrdemServicoController() throws RemoteException{}    
+    
+//metodo criado pra reaproveitar o codigo no metodo create and update    
+ private String preparaPS(String sql,OrdemServico ordemServico,ConexaoBD conexao){
        try{
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
@@ -41,8 +47,10 @@ public class OrdemServicoController {
        }
        
     }
-  
-    public String create(OrdemServico ordemServico) {
+ 
+    @Override
+    public String create(Object ordemServicoObj) {
+        OrdemServico ordemServico = (OrdemServico)ordemServicoObj;
        int retorno = 0;
        String erro = "";
           
@@ -60,6 +68,7 @@ public class OrdemServicoController {
     
     }
    
+    @Override
     public OrdemServico read(int idOrdemServico){
         OrdemServico os = new OrdemServico();
         try{
@@ -83,7 +92,9 @@ public class OrdemServicoController {
         return os;
     }
 
-    public String update(OrdemServico ordemServico){
+    @Override
+    public String update(Object ordemServicoObj){
+        OrdemServico ordemServico = (OrdemServico)ordemServicoObj;
         int retorno = 0;
         String erro = "";
         try{
@@ -100,6 +111,7 @@ public class OrdemServicoController {
         return erro;
     }
      
+    @Override
     public String delete(int idOrdemServico){
         String erro = "";
        

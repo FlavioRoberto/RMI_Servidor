@@ -7,10 +7,13 @@ package rmi.Controller;
 
 import Application.Conexao;
 import Util.ConexaoBD;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import rmi.Interface.IControllerBase;
 import rmi.Model.Cliente;
 import rmi.Model.Pessoa;
 
@@ -18,9 +21,13 @@ import rmi.Model.Pessoa;
  *
  * @author Admin
  */
-public class ClienteController {
-   
- public String create(Cliente cliente){
+public class ClienteController extends UnicastRemoteObject implements IControllerBase{
+ 
+ public ClienteController() throws RemoteException{}
+    
+ @Override   
+ public String create(Object clienteObject){
+    Cliente cliente = (Cliente)clienteObject; 
    int retorno = 0; //variavel pra identificar se houve erro ou nao
    String erro = "";//variável pra armazenar o erro
      try{
@@ -46,6 +53,7 @@ public class ClienteController {
      }
  }
  
+ @Override  
  public Cliente read (int idCliente){
      Cliente cliente = new Cliente(); //objeto pra carregar os valores do banco
      ConexaoBD conexao = new ConexaoBD(); //objeto de conexao 
@@ -63,7 +71,9 @@ public class ClienteController {
      }
  }
 
- public String update(Cliente cliente){
+  @Override  
+ public String update(Object clienteObject){
+     Cliente cliente = (Cliente)clienteObject;
     boolean retorno = false;
     String erro = "";
     try{
@@ -86,6 +96,7 @@ public class ClienteController {
     return erro;
 }
 
+  @Override  
  public String delete(int idCliente){
      String erro;
      int retorno = 0;

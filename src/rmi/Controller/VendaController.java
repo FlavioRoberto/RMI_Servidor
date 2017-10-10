@@ -10,15 +10,18 @@ import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import rmi.Interface.IControllerBase;
 import rmi.Model.Venda;
 
 /**
  *
  * @author Admin
  */
-public class VendaController {
+public class VendaController implements IControllerBase{
     
-    public String create(Venda venda){
+    @Override
+    public String create(Object vendaObj){
+        Venda venda = (Venda)vendaObj;
         String erro = "";
         int retorno = 0;
         try{
@@ -42,6 +45,7 @@ public class VendaController {
         return erro;
     }
     
+    @Override
     public Venda read(int idVenda){
        Venda venda = new Venda();
         try{
@@ -59,7 +63,9 @@ public class VendaController {
         }
     }
 
-    public String update(Venda venda){
+    @Override
+    public String update(Object vendaObj){
+        Venda venda = (Venda) vendaObj;
         int retorno = 0;
         String erro = "";
         try{
@@ -80,6 +86,7 @@ public class VendaController {
         return erro;
     }
 
+    @Override
     public String delete(int idVenda){
      String erro = "";
      int retorno = 0;

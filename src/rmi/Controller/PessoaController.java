@@ -7,20 +7,27 @@ package rmi.Controller;
 
 import Application.Conexao;
 import Util.ConexaoBD;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import rmi.Interface.IControllerBase;
 import rmi.Model.Pessoa;
 
 /**
  *
  * @author Admin
  */
-public class PessoaController {
+public class PessoaController extends UnicastRemoteObject implements IControllerBase {
     
-    public String create(Pessoa pessoa){
+    public PessoaController() throws RemoteException{}
+    
+    @Override
+    public String create(Object pessoaObjetc){
+        Pessoa pessoa = (Pessoa)pessoaObjetc;
         int retorno = 0;
         String erro ="";
         try {           
@@ -47,7 +54,8 @@ public class PessoaController {
         
         return erro;
     }
-    /*    
+       
+    @Override
     public Pessoa read(int idPessoa){
   
         Pessoa pessoa = new Pessoa();
@@ -76,9 +84,10 @@ public class PessoaController {
         }
       
     }
-*/
     
-    public String update(Pessoa pessoa){ 
+    @Override
+    public String update(Object pessoaObject){ 
+        Pessoa pessoa = (Pessoa)pessoaObject;
         String erro = "";
         int retorno = 0;
         
@@ -112,6 +121,7 @@ public class PessoaController {
       return erro;
     }
 
+    @Override
     public String delete(int idPessoa){
         
         String erro = "";
