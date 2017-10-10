@@ -133,4 +133,28 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
       return cliente;      
  }
  
+ 
+  @Override
+    public Object findBy(String campo,Object valorProcurado){
+        Cliente cliente = new Cliente();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM cliente WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+               cliente = carregaCliente(rs);  
+            }
+            //fecha conexao
+            rs.close();
+            //metodo que fecha a conexao
+            Conexao.closeConection(conexao);
+            return cliente;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+           
+        }
+         return cliente;
+    }
+ 
 }

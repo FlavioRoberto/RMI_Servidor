@@ -147,7 +147,8 @@ public class PessoaController extends UnicastRemoteObject implements IController
         return erro;
     }
     
-    public Pessoa findBy(String campo,Object valorProcurado){
+    @Override
+    public Object findBy(String campo,Object valorProcurado){
         Pessoa pessoa  = new Pessoa();
         
         try{

@@ -19,6 +19,7 @@ import javafx.scene.input.DataFormat;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
 import rmi.Model.OrdemServico;
+import rmi.Model.Pessoa;
 
 /**
  *
@@ -142,5 +143,29 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
                 os.setIdVenda(rs.getInt("Venda_idVenda"));
                 os.setIdOrdemServico(rs.getInt("idordemServico"));
         return os;
+    }
+
+
+     @Override
+    public Object findBy(String campo, Object valorProcurado){
+        OrdemServico ordemServico  = new OrdemServico();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM ordemservico WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+               ordemServico = carregaOs(rs);  
+            }
+            //fecha conexao
+            rs.close();
+            //metodo que fecha a conexao
+            Conexao.closeConection(conexao);
+            return ordemServico;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+           
+        }
+         return ordemServico;
     }
 }

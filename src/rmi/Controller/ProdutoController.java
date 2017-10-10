@@ -12,7 +12,9 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
+import rmi.Model.OrdemServico;
 import rmi.Model.Produto;
 
 /**
@@ -132,5 +134,29 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
                 produto.setPreco(rs.getFloat("preco"));
                 produto.setIdProduto(rs.getInt("idProduto"));
            return produto;     
+    }
+    
+    
+    @Override
+    public Object findBy(String campo, Object valorProcurado){
+        Produto produto  = new Produto();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM produto WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+               produto = carregaProduto(rs);  
+            }
+            //fecha conexao
+            rs.close();
+            //metodo que fecha a conexao
+            Conexao.closeConection(conexao);
+            return produto;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+           
+        }
+         return produto;
     }
 }

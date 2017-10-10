@@ -10,7 +10,9 @@ import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
+import rmi.Model.OrdemServico;
 import rmi.Model.Venda;
 
 /**
@@ -117,5 +119,29 @@ public class VendaController implements IControllerBase{
          venda.setQuantidade(rs.getInt("quantidade"));
                 venda.setIdVenda(rs.getInt("idVenda"));
         return venda;        
+    }
+    
+    
+    @Override
+    public Object findBy(String campo, Object valorProcurado){
+        Venda venda  = new Venda();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM ordemservico WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+               venda = carregaVenda(rs);  
+            }
+            //fecha conexao
+            rs.close();
+            //metodo que fecha a conexao
+            Conexao.closeConection(conexao);
+            return venda;
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+           
+        }
+         return venda;
     }
 }

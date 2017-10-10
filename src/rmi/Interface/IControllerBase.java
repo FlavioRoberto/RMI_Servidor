@@ -18,5 +18,6 @@ public interface IControllerBase extends Remote {
     public Object read(int id) throws RemoteException;
     public String update(Object objecct) throws RemoteException;
     public String delete(int id) throws RemoteException;
+    public Object findBy(String campo,Object valor);
     
 }
