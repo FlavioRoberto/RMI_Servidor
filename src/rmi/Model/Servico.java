@@ -5,11 +5,13 @@
  */
 package rmi.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Admin
  */
-public class Servico {
+public class Servico implements Serializable {
     private int idServico;
     private OrdemServico ordemServico;
     private String descricao;

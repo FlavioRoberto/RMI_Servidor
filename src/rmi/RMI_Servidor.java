@@ -5,30 +5,12 @@
  */
 package rmi;
 
-import Application.formataData;
-import java.rmi.AccessException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import rmi.Controller.ClienteController;
-import rmi.Controller.FuncionarioController;
-import rmi.Controller.OrdemServicoController;
 import rmi.Controller.PessoaController;
-import rmi.Controller.ProdutoController;
-import rmi.Controller.VendaController;
 import rmi.Interface.IControllerBase;
-import rmi.Model.Cliente;
-import rmi.Model.Funcionario;
-import rmi.Model.OrdemServico;
-import rmi.Model.Pessoa;
-import rmi.Model.Produto;
-import rmi.Model.Venda;
 
 /**
  *
@@ -40,10 +22,10 @@ public class RMI_Servidor {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws AlreadyBoundException{
+    public static void main(String[] args) {
          
         try {
-            IControllerBase objetoCliente = new ClienteController();
+            IControllerBase objetoCliente = new PessoaController();
             //criadno objeto de conexao
             Registry conexao = LocateRegistry.createRegistry(1500);
             System.out.println("Servidor conectado");

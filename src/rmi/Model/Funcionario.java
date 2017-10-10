@@ -5,11 +5,13 @@
  */
 package rmi.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Admin
  */
-public class Funcionario extends Pessoa {
+public class Funcionario extends Pessoa implements Serializable {
     private int idFuncionario;
     private float salario;
     private String especialidade;

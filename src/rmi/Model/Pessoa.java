@@ -5,11 +5,13 @@
  */
 package rmi.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Admin
  */
-public class Pessoa {
+public class Pessoa implements Serializable{
     private int idPessoa;
     private String nome,cpf,rg,telefone;
 

@@ -5,11 +5,13 @@
  */
 package rmi.Model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Admin
  */
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoa implements Serializable{
     private int idCliente;
     private String tipo;
 
