@@ -7,6 +7,8 @@ package rmi.Interface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import rmi.Model.Pessoa;
 
 /**
  *
@@ -19,5 +21,5 @@ public interface IControllerBase extends Remote {
     public String update(Object objecct) throws RemoteException;
     public String delete(int id) throws RemoteException;
     public Object findBy(String campo,Object valor)throws RemoteException;
-    
+    public ArrayList<Object> findByList(String campo, Object valor)throws RemoteException;
 }

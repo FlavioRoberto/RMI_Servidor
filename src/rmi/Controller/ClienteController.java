@@ -12,6 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
 import rmi.Model.Cliente;
@@ -152,9 +153,28 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
             return cliente;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
-           
+            return cliente;
         }
-         return cliente;
+         
+    }
+    
+    public ArrayList<Object> findByList(String campo, Object valor){
+        ArrayList<Object> clientes = new ArrayList();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM cliente WHERE "+campo.toLowerCase()+"="+valor;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+                Cliente cliente = carregaCliente(rs);
+                clientes.add(cliente);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+            return clientes;
+        }
+        
+        return clientes;
     }
  
 }

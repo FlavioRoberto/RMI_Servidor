@@ -6,10 +6,13 @@
 package rmi;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rmi.Controller.ClienteController;
+import rmi.Controller.PessoaController;
 import rmi.Interface.IControllerBase;
+import rmi.Model.Pessoa;
 
 /**
  *
@@ -17,7 +20,16 @@ import rmi.Interface.IControllerBase;
  */
 public class main {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
+        PessoaController controller = new PessoaController();
+        ArrayList<Object> pessoa = new ArrayList();
+        
+        pessoa = controller.findByList("cpf","cpf");
+        
+        for(Object itemPessoa : pessoa){
+            Pessoa itemConvertido = (Pessoa)itemPessoa;
+            System.out.println(itemConvertido.getNome());
+        }
         
     }
 }

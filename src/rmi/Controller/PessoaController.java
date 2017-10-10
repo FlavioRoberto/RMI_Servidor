@@ -165,14 +165,14 @@ public class PessoaController extends UnicastRemoteObject implements IController
             return pessoa;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
-           
+           return pessoa;
         }
-         return pessoa;
+         
     }
     
     
-    public ArrayList<Pessoa> findByList(String campo, Object valor){
-        ArrayList<Pessoa> pessoas = new ArrayList();
+    public ArrayList<Object> findByList(String campo, Object valor){
+        ArrayList<Object> pessoas = new ArrayList();
         
         try{
             ConexaoBD conexao = new ConexaoBD();
@@ -184,6 +184,7 @@ public class PessoaController extends UnicastRemoteObject implements IController
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+            return pessoas;
         }
         
         return pessoas;

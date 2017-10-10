@@ -10,9 +10,11 @@ import Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
 import rmi.Model.OrdemServico;
+import rmi.Model.Pessoa;
 import rmi.Model.Venda;
 
 /**
@@ -42,9 +44,11 @@ public class VendaController implements IControllerBase{
         
         if(retorno == 1){
             erro = "Erro na sentença Insert";
+            return erro;
         }
-        
         return erro;
+        
+        
     }
     
     @Override
@@ -128,7 +132,7 @@ public class VendaController implements IControllerBase{
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM ordemservico WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM venda WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                venda = carregaVenda(rs);  
@@ -140,8 +144,27 @@ public class VendaController implements IControllerBase{
             return venda;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
-           
+            return venda;
         }
-         return venda;
+        
+    }
+    
+    
+    public ArrayList<Object> findByList(String campo, Object valor){
+        ArrayList<Object> vendas = new ArrayList();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM venda WHERE "+campo.toLowerCase()+"="+valor;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+                Venda venda = carregaVenda(rs);
+                vendas.add(venda);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+        }
+        
+        return vendas;
     }
 }

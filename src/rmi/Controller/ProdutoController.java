@@ -12,9 +12,11 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
 import rmi.Model.OrdemServico;
+import rmi.Model.Pessoa;
 import rmi.Model.Produto;
 
 /**
@@ -155,8 +157,28 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
             return produto;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
-           
+            return produto;
         }
-         return produto;
+        
+    }
+    
+    
+    public ArrayList<Object> findByList(String campo, Object valor){
+        ArrayList<Object> produtos = new ArrayList();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM produto WHERE "+campo.toLowerCase()+"="+valor;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+                Produto produto = carregaProduto(rs);
+                produtos.add(produto);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+             return produtos;
+        }
+        
+        return produtos;
     }
 }

@@ -12,6 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
 import rmi.Model.Funcionario;
@@ -168,9 +169,27 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
             return funcionario;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
-           
+           return funcionario;
         }
-         return funcionario;
+         
+    }
+    
+    public ArrayList<Object> findByList(String campo, Object valor){
+        ArrayList<Object> funcionarios = new ArrayList();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM funcionario WHERE "+campo.toLowerCase()+"="+valor;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+                Funcionario funcionario = carregaFuncionario(rs);
+                funcionarios.add(funcionario);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+              return funcionarios;
+        }
+         return funcionarios;
     }
 
 }

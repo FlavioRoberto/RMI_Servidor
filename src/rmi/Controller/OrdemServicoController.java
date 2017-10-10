@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import javafx.scene.input.DataFormat;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
@@ -164,8 +165,28 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
             return ordemServico;
         }catch(Exception e){
             JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
-           
+            return ordemServico;
         }
-         return ordemServico;
+         
+    }
+    
+    
+    public ArrayList<Object> findByList(String campo, Object valor){
+        ArrayList<Object> listaOs = new ArrayList();
+        
+        try{
+            ConexaoBD conexao = new ConexaoBD();
+            String sql = "SELECT * FROM ordemservico WHERE "+campo.toLowerCase()+"="+valor;
+            ResultSet rs = conexao.sentenca.executeQuery(sql);
+            while(rs.next()){
+                OrdemServico os = carregaOs(rs);
+                listaOs.add(os);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+             return listaOs;
+        }
+        
+        return listaOs;
     }
 }
