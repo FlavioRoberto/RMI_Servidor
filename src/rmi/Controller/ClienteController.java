@@ -32,11 +32,13 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
    int retorno = 0; //variavel pra identificar se houve erro ou nao
    String erro = "";//variável pra armazenar o erro
      try{
+         //insere e retorna a pessoa pra inserir na tabela cliente
+         Pessoa pessoa = inserePessoaCliente(cliente);
          ConexaoBD conexao = new ConexaoBD(); 
          String sql = "INSERT INTO cliente (tipo,Pessoa_idPessoa) VALUES (?,?)"; //sentença de inserir
          PreparedStatement ps = conexao.connection.prepareStatement(sql); //prepara a string pra inserção
          ps.setString(1, cliente.getTipo());//na posição 1 (?) pegue o tipo do cliente
-         ps.setInt(2, cliente.getIdPessoa());
+         ps.setInt(2, pessoa.getIdPessoa());
          retorno = ps.executeUpdate(); //executa a acao pra salvar no banco e armazena seu retornno
          ps.close(); //encerra o preparete statement
          Conexao.closeConection(conexao);
@@ -52,6 +54,17 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
         erro += "Erro na sentença inserir!";
         return erro;
      }
+ }
+ 
+ private Pessoa inserePessoaCliente(Cliente cliente) throws RemoteException{
+     Pessoa pessoa = new Pessoa();
+     PessoaController pController = new PessoaController();
+     pessoa.setCpf(cliente.getCpf());
+     pessoa.setNome(cliente.getNome());
+     pessoa.setRg(cliente.getRg());
+     pessoa.setTelefone(cliente.getTelefone());
+     pController.create(pessoa);
+     return (Pessoa)pController.findBy("cpf", pessoa.getCpf());
  }
  
  @Override  

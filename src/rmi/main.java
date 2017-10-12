@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import rmi.Controller.ClienteController;
 import rmi.Controller.PessoaController;
 import rmi.Interface.IControllerBase;
+import rmi.Model.Cliente;
 import rmi.Model.Pessoa;
 
 /**
@@ -21,14 +22,20 @@ import rmi.Model.Pessoa;
 public class main {
     
     public static void main(String[] args) throws RemoteException {
-        PessoaController controller = new PessoaController();
-        ArrayList<Object> pessoa = new ArrayList();
-        
-        pessoa = controller.findByList("cpf","cpf");
-        
-        for(Object itemPessoa : pessoa){
-            Pessoa itemConvertido = (Pessoa)itemPessoa;
-            System.out.println(itemConvertido.getNome());
+        Cliente cliente = new Cliente();
+        ClienteController CController = new ClienteController();
+        cliente.setCpf("cpf");
+        cliente.setNome("Teste cliPessoa");
+        cliente.setRg("rg");
+        cliente.setTelefone("telefone");
+        cliente.setTipo("tipo");
+        CController.create(cliente);
+        PessoaController pessoaController = new PessoaController();
+       
+        ArrayList<Object> listaPessoa = pessoaController.findByList("cpf","cpf");
+        for(Object itemCliente : listaPessoa){
+           Pessoa itemConvCliente = (Pessoa)itemCliente;
+           System.out.println(itemConvCliente.getNome());
         }
         
     }
