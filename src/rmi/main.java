@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import rmi.Controller.ClienteController;
+import rmi.Controller.FuncionarioController;
 import rmi.Controller.PessoaController;
 import rmi.Interface.IControllerBase;
 import rmi.Model.Cliente;
+import rmi.Model.Funcionario;
 import rmi.Model.Pessoa;
 
 /**
@@ -22,21 +24,15 @@ import rmi.Model.Pessoa;
 public class main {
     
     public static void main(String[] args) throws RemoteException {
-        Cliente cliente = new Cliente();
-        ClienteController CController = new ClienteController();
-        cliente.setCpf("cpf");
-        cliente.setNome("Teste cliPessoa");
-        cliente.setRg("rg");
-        cliente.setTelefone("telefone");
-        cliente.setTipo("tipo");
-        CController.create(cliente);
-        PessoaController pessoaController = new PessoaController();
-       
-        ArrayList<Object> listaPessoa = pessoaController.findByList("cpf","cpf");
-        for(Object itemCliente : listaPessoa){
-           Pessoa itemConvCliente = (Pessoa)itemCliente;
-           System.out.println(itemConvCliente.getNome());
-        }
+       Funcionario funcionario = new Funcionario();
+        FuncionarioController controller = new FuncionarioController();
+        funcionario.setCpf("cpf");
+        funcionario.setEspecialidade("especialidade");
+        funcionario.setNome("teste insere cliente");
+        funcionario.setRg("rg");
+        funcionario.setSalario(2000);
+        funcionario.setTelefone("telefone");
         
+        System.out.println(controller.create(funcionario));
     }
 }
