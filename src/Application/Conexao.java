@@ -5,7 +5,7 @@
  */
 package Application;
 
-import Util.ConexaoBD;
+import rmi.Util.ConexaoBD;
 import java.sql.SQLException;
 
 /**

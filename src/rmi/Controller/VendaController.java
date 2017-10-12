@@ -6,15 +6,13 @@
 package rmi.Controller;
 
 import Application.Conexao;
-import Util.ConexaoBD;
+import rmi.Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
-import rmi.Model.OrdemServico;
-import rmi.Model.Pessoa;
 import rmi.Model.Venda;
 
 /**

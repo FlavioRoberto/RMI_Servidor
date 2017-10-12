@@ -6,7 +6,7 @@
 package rmi.Controller;
 
 import Application.Conexao;
-import Util.ConexaoBD;
+import rmi.Util.ConexaoBD;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.PreparedStatement;

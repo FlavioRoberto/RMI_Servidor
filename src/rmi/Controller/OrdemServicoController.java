@@ -7,7 +7,7 @@ package rmi.Controller;
 
 import Application.Conexao;
 import Application.formataData;
-import Util.ConexaoBD;
+import rmi.Util.ConexaoBD;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.Date;
