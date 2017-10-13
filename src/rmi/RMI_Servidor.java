@@ -9,6 +9,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import rmi.Controller.FuncionarioController;
 import rmi.Controller.PessoaController;
 import rmi.Interface.IControllerBase;
 
@@ -25,12 +26,12 @@ public class RMI_Servidor {
     public static void main(String[] args) {
          
         try {
-            IControllerBase objetoCliente = new PessoaController();
             //criadno objeto de conexao
             Registry conexao = LocateRegistry.createRegistry(1500);
             System.out.println("Servidor conectado");
-            //fica escutando na porta especifica o objeto
-            conexao.bind("chave",objetoCliente);
+            
+            IControllerBase objetoFuncionario = new FuncionarioController();
+            conexao.bind("funcionario", objetoFuncionario);
             
         } catch(AlreadyBoundException e){
             System.out.println(e.getMessage());
@@ -40,4 +41,7 @@ public class RMI_Servidor {
        }
     }
     
+    private static void preparaBindObject(Registry conexao) throws RemoteException, AlreadyBoundException{
+          
+    }
 }

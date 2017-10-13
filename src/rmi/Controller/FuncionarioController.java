@@ -32,20 +32,21 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         Funcionario funcionario = (Funcionario)funcionarioObject;
         String erro = "";
         int retorno = 0;
+        
         try{
-            Pessoa pessoa = insereClienteFuncionario(funcionario);
-            if(pessoa != null){
-                ConexaoBD conexao = new ConexaoBD();
-                String sql = "INSERT INTO funcionario(salario,especialidade,Pessoa_idPessoa) VALUES(?,?,?)";
-                PreparedStatement ps = conexao.connection.prepareStatement(sql);
-                ps.setFloat(1,funcionario.getSalario());
-                ps.setString(2,funcionario.getEspecialidade());
-                ps.setInt(3,pessoa.getIdPessoa());
-                retorno = ps.executeUpdate();
-                ps.close();
-                Conexao.closeConection(conexao);
-                return "Inserido com sucesso";
-            }
+           Pessoa pessoa = inserePessoaFuncionairio(funcionario);
+           ConexaoBD conexao = new ConexaoBD();
+
+            String sql = "INSERT INTO funcionario(salario,especialidade,Pessoa_idPessoa) VALUES(?,?,?)";
+            PreparedStatement ps = conexao.connection.prepareStatement(sql);
+            ps.setFloat(1,funcionario.getSalario());
+            ps.setString(2,funcionario.getEspecialidade());
+            ps.setInt(3,pessoa.getIdPessoa());
+            retorno = ps.executeUpdate();
+            ps.close();
+            Conexao.closeConection(conexao);
+            return "Inserido com sucesso";
+           
            
             
         }catch(Exception e){
@@ -59,17 +60,16 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         return erro;
     }
     
-    private Pessoa insereClienteFuncionario(Funcionario funcionario) throws RemoteException{
+    private Pessoa inserePessoaFuncionairio(Funcionario funcionario) throws RemoteException{
         Pessoa pessoa = new Pessoa();
         PessoaController pController = new PessoaController();
         pessoa.setCpf(funcionario.getCpf());
         pessoa.setNome(funcionario.getNome());
         pessoa.setRg(funcionario.getRg());
         pessoa.setTelefone(funcionario.getTelefone());
-        pController.create(pessoa);
-        return (Pessoa)pController.findBy("cpf",pessoa.getCpf());
-        
-    }
+         pController.create(pessoa);
+         return (Pessoa)pController.findBy("cpf", pessoa.getCpf());
+ }
     
      @Override  
     public Funcionario read(int idFuncionario){
