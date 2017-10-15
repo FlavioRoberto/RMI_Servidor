@@ -9,8 +9,12 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import rmi.Controller.ClienteController;
 import rmi.Controller.FuncionarioController;
+import rmi.Controller.OrdemServicoController;
 import rmi.Controller.PessoaController;
+import rmi.Controller.ProdutoController;
+import rmi.Controller.VendaController;
 import rmi.Interface.IControllerBase;
 
 /**
@@ -30,8 +34,7 @@ public class RMI_Servidor {
             Registry conexao = LocateRegistry.createRegistry(1500);
             System.out.println("Servidor conectado");
             
-            IControllerBase objetoFuncionario = new FuncionarioController();
-            conexao.bind("funcionario", objetoFuncionario);
+            preparaBindObject(conexao);
             
         } catch(AlreadyBoundException e){
             System.out.println(e.getMessage());
@@ -42,6 +45,42 @@ public class RMI_Servidor {
     }
     
     private static void preparaBindObject(Registry conexao) throws RemoteException, AlreadyBoundException{
-          
+           bindFuncionario(conexao);
+           bindCliente(conexao);
+           bindOrdemServico(conexao);
+           bindPessoa(conexao);
+           bindProduto(conexao);
+           bindVenda(conexao);
     }
+
+    private static void bindFuncionario(Registry conexao) throws RemoteException, AlreadyBoundException {
+           IControllerBase objetoFuncionario = new FuncionarioController();
+           conexao.bind("funcionario", objetoFuncionario);
+    }
+
+    private static void bindCliente(Registry conexao) throws RemoteException, AlreadyBoundException {
+        IControllerBase objetoCliente = new ClienteController();
+        conexao.bind("cliente", objetoCliente);
+    }
+    
+    private static void bindOrdemServico(Registry conexao) throws RemoteException, AlreadyBoundException {
+        IControllerBase objetoOS = new OrdemServicoController();
+        conexao.bind("ordem_servico", objetoOS);
+    }
+    
+    private static void bindPessoa(Registry conexao) throws RemoteException, AlreadyBoundException {
+        IControllerBase objetoPessoa = new PessoaController();
+        conexao.bind("pessoa", objetoPessoa);
+    }
+    
+    private static void bindProduto(Registry conexao) throws RemoteException, AlreadyBoundException {
+        IControllerBase objetoProduto = new ProdutoController();
+        conexao.bind("produto", objetoProduto);
+    } 
+    
+    private static void bindVenda(Registry conexao) throws RemoteException, AlreadyBoundException {
+        IControllerBase objetoVenda = new VendaController();
+        conexao.bind("venda", objetoVenda);
+    } 
+
 }
