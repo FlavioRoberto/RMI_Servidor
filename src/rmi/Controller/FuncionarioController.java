@@ -158,11 +158,11 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
         funcionario.setSalario(rs.getFloat("salario"));
         funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
-        
         Pessoa pessoa = (Pessoa)pessoaController.findBy("idPessoa", funcionario.getIdPessoa());
         funcionario.setNome(pessoa.getNome());
         funcionario.setRg(pessoa.getRg());
         funcionario.setTelefone(pessoa.getTelefone());
+        funcionario.setCpf(pessoa.getCpf());
         
         return funcionario;
     }
