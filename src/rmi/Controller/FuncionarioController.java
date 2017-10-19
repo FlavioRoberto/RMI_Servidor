@@ -101,14 +101,26 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         try{
             
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE funcionario SET salario = ?, especialidade = ?, Pessoa_idPessoa = ? WHERE idFuncionario = ? ";
+            //String sql = "UPDATE funcionario SET salario = ?, especialidade = ?, Pessoa_idPessoa = ? WHERE idFuncionario = ? ";
+            String sql = "UPDATE pessoa SET nome = ?, cpf = ?, rg = ?, telefone = ? WHERE idPessoa = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
-            ps.setFloat(1,funcionario.getSalario());
-            ps.setString(2,funcionario.getEspecialidade());
-            ps.setInt(3,funcionario.getIdPessoa());
-            ps.setInt(4,funcionario.getIdFuncionario());
+            ps.setString(1, funcionario.getNome());
+            ps.setString(2, funcionario.getCpf());
+            ps.setString(3, funcionario.getRg());
+            ps.setString(4, funcionario.getTelefone());
+            ps.setInt(5, funcionario.getIdPessoa());
             retorno = ps.executeUpdate();
             ps.close();
+            
+            String sql2 = "UPDATE funcionario SET salario = ?, especialidade = ? WHERE idFuncionario = ?";
+            PreparedStatement ps2 = conexao.connection.prepareStatement(sql2);
+            
+            ps2.setFloat(1, funcionario.getSalario());
+            ps2.setString(2, funcionario.getEspecialidade());
+            ps2.setInt(3, funcionario.getIdFuncionario());
+            retorno = ps2.executeUpdate();
+            ps2.close();
+            
             Conexao.closeConection(conexao);
             
             return "Funcionário atualizado!";
@@ -158,11 +170,13 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
         funcionario.setSalario(rs.getFloat("salario"));
         funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
+        
         Pessoa pessoa = (Pessoa)pessoaController.findBy("idPessoa", funcionario.getIdPessoa());
         funcionario.setNome(pessoa.getNome());
         funcionario.setRg(pessoa.getRg());
         funcionario.setTelefone(pessoa.getTelefone());
         funcionario.setCpf(pessoa.getCpf());
+        funcionario.setIdPessoa(pessoa.getIdPessoa());
         
         return funcionario;
     }
