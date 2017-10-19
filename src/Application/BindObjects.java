@@ -21,7 +21,8 @@ import rmi.Interface.IControllerBase;
  * @author Admin
  */
 public class BindObjects {
-     public static void preparaBindObject(Registry conexao) throws RemoteException, AlreadyBoundException{
+    
+    public static void preparaBindObject(Registry conexao) throws RemoteException, AlreadyBoundException{
            bindFuncionario(conexao);
            bindCliente(conexao);
            bindOrdemServico(conexao);

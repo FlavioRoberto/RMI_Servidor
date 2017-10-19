@@ -10,13 +10,7 @@ import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import rmi.Controller.ClienteController;
-import rmi.Controller.FuncionarioController;
-import rmi.Controller.OrdemServicoController;
-import rmi.Controller.PessoaController;
-import rmi.Controller.ProdutoController;
-import rmi.Controller.VendaController;
-import rmi.Interface.IControllerBase;
+
 
 /**
  *
@@ -24,7 +18,6 @@ import rmi.Interface.IControllerBase;
  */
 public class RMI_Servidor {
 
-      
     /**
      * @param args the command line arguments
      */
@@ -35,6 +28,7 @@ public class RMI_Servidor {
             Registry conexao = LocateRegistry.createRegistry(1500);
             System.out.println("Servidor conectado");
             
+            //metodo responsável pelo bind das chaves
             BindObjects.preparaBindObject(conexao);
             
         } catch(AlreadyBoundException e){

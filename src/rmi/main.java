@@ -26,13 +26,9 @@ public class main {
     public static void main(String[] args) throws RemoteException {
        Funcionario funcionario = new Funcionario();
         FuncionarioController controller = new FuncionarioController();
-        funcionario.setCpf("cpf");
-        funcionario.setEspecialidade("especialidade");
-        funcionario.setNome("teste insere cliente");
-        funcionario.setRg("rg");
-        funcionario.setSalario(2000);
-        funcionario.setTelefone("telefone");
         
-        System.out.println(controller.create(funcionario));
+        funcionario = (Funcionario) controller.findBy("idFuncionario",17);
+        
+        System.out.println(funcionario.getNome());
     }
 }

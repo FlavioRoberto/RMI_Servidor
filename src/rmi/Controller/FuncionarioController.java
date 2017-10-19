@@ -150,16 +150,19 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         
     }
 
-    private Funcionario carregaFuncionario(ResultSet rs) throws SQLException {
+    private Funcionario carregaFuncionario(ResultSet rs) throws SQLException, RemoteException {
+        PessoaController  pessoaController = new PessoaController();
+       
         Funcionario funcionario = new Funcionario();
-        funcionario.setCpf(rs.getString("cpf"));
-               funcionario.setEspecialidade(rs.getString("especialidade"));
-               funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
-               funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
-               funcionario.setNome(rs.getString("nome"));
-               funcionario.setRg(rs.getString("rg"));
-               funcionario.setSalario(rs.getFloat("salario"));
-               funcionario.setTelefone(rs.getString("telefone"));
+        funcionario.setEspecialidade(rs.getString("especialidade"));
+        funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
+        funcionario.setSalario(rs.getFloat("salario"));
+        funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
+        
+        Pessoa pessoa = (Pessoa)pessoaController.findBy("idPessoa", funcionario.getIdPessoa());
+        funcionario.setNome(pessoa.getNome());
+        funcionario.setRg(pessoa.getRg());
+        funcionario.setTelefone(pessoa.getTelefone());
         
         return funcionario;
     }

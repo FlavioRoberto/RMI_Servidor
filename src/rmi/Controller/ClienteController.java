@@ -43,7 +43,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
          ps.close(); //encerra o preparete statement
          Conexao.closeConection(conexao);
          
-     }catch(Exception e){
+     }catch(RemoteException | SQLException e){
           erro += ("Erro ao adicionar cliente: \n"+e.getMessage()); //se houver uma falha no try catch
           return erro;
      }
