@@ -25,7 +25,8 @@ public class Cliente_has_produtoController extends UnicastRemoteObject implement
     private final String TABELA = "Cliente_has_Produto",IDCLIENTE = "Cliente_idCliente",IDPRODUTO = "Produto_idProduto",IDVENDA = "Venda_idVenda";
     
     
-    
+    public Cliente_has_produto(){}
+   
     @Override
     public String create(Object ordemServicoObj) {
         Cliente_has_produto chs = (Cliente_has_produto)ordemServicoObj;
