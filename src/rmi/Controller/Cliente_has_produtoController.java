@@ -23,9 +23,10 @@ import rmi.Util.ConexaoBD;
 public class Cliente_has_produtoController extends UnicastRemoteObject implements IControllerBase {
 
     private final String TABELA = "Cliente_has_Produto",IDCLIENTE = "Cliente_idCliente",IDPRODUTO = "Produto_idProduto",IDVENDA = "Venda_idVenda";
+
+    public Cliente_has_produtoController() throws RemoteException{
+    }
     
-    
-    public Cliente_has_produto(){}
    
     @Override
     public String create(Object ordemServicoObj) {
