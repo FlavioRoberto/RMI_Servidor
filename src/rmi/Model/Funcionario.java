@@ -14,7 +14,15 @@ import java.io.Serializable;
 public class Funcionario extends Pessoa implements Serializable {
     private int idFuncionario;
     private float salario;
-    private String especialidade;
+    private String especialidade, senha;
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
     public int getIdFuncionario() {
         return idFuncionario;

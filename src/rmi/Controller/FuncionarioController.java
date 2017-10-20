@@ -37,11 +37,12 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
            Pessoa pessoa = inserePessoaFuncionairio(funcionario);
            ConexaoBD conexao = new ConexaoBD();
 
-            String sql = "INSERT INTO funcionario(salario,especialidade,Pessoa_idPessoa) VALUES(?,?,?)";
+            String sql = "INSERT INTO funcionario(salario,especialidade,senha,Pessoa_idPessoa) VALUES(?,?,?,?)";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setFloat(1,funcionario.getSalario());
             ps.setString(2,funcionario.getEspecialidade());
-            ps.setInt(3,pessoa.getIdPessoa());
+            ps.setString(3,funcionario.getSenha());
+            ps.setInt(4,pessoa.getIdPessoa());
             retorno = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -142,11 +143,17 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "DELETE FROM funcionario WHERE idFuncionario = ?";
+            String sql = "DELETE FROM funcionario WHERE Pessoa_idPessoa = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idFuncionario);
             retorno = ps.executeUpdate();
             ps.close();
+            
+            String sql2 = "DELETE FROM pessoa WHERE idPessoa = ?";
+            PreparedStatement ps2 = conexao.connection.prepareStatement(sql2);
+            ps2.setInt(1, idFuncionario);
+            retorno = ps2.executeUpdate();
+            ps2.close();
             Conexao.closeConection(conexao);
             
             return  "Funcionário removido!";
@@ -170,6 +177,7 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
         funcionario.setSalario(rs.getFloat("salario"));
         funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
+        funcionario.setSenha(rs.getString("senha"));
         
         Pessoa pessoa = (Pessoa)pessoaController.findBy("idPessoa", funcionario.getIdPessoa());
         funcionario.setNome(pessoa.getNome());
