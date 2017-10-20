@@ -18,7 +18,7 @@ public class ConexaoBD {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/dersos";
             String usuario = "root";
-            String senha = "root";
+            String senha = "engenhariacomputacao";
             connection = DriverManager.getConnection(url,usuario,senha);
             sentenca = connection.createStatement();
         } catch (ClassNotFoundException ex) {

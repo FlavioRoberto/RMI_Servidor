@@ -38,7 +38,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
             ps.setDate(1, new Date(ordemServico.getDataExp().getTime()));
             ps.setDate(2,new Date(ordemServico.getDataConclusao().getTime()));
             ps.setInt(3, ordemServico.getIdFuncionario());
-            ps.setInt(4,ordemServico.getIdCliente());
+            ps.setInt(4,ordemServico.getIdClienteHasproduto());
             ps.setInt(5,ordemServico.getIdVenda());
             ps.executeUpdate();
             ps.close();
@@ -102,7 +102,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         try{
             ConexaoBD conexao = new ConexaoBD();
             String sql = "UPDATE ordemservico SET dataExp = ?, dataConclusao = ?, Funcionario_idFuncionario = ?,"
-                    + "Cliente_idCliente = ?,Venda_idVenda = ?;";
+                    + "clienteHasProduto_idClienteHasProduto = ?,Venda_idVenda = ?;";
             //PreparedStatement ps = conexao.connection.prepareStatement(sql);
             erro = preparaPS(sql, ordemServico, conexao);
             Conexao.closeConection(conexao);
@@ -139,7 +139,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         OrdemServico os = new OrdemServico();
          os.setDataExp(new java.util.Date(rs.getDate("dataExp").getTime()));
                 os.setDataConclusao( new java.util.Date (rs.getDate("dataconclusao").getTime()));
-                os.setIdCliente(rs.getInt("Cliente_idCliente"));
+                os.setIdClienteHasproduto(rs.getInt("clienteHasProduto_idClienteHasProduto"));
                 os.setIdFuncionario(rs.getInt("Funcionario_idFuncionario"));
                 os.setIdVenda(rs.getInt("Venda_idVenda"));
                 os.setIdOrdemServico(rs.getInt("idordemServico"));

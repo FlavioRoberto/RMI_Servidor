@@ -12,8 +12,18 @@ import java.io.Serializable;
  * @author Admin
  */
 public class Cliente_has_produto implements Serializable {
-    private int idCliente, idProduto;
+    private int idCliente, idProduto, idVenda;
 
+    public int getIdVenda() {
+        return idVenda;
+    }
+
+    public void setIdVenda(int idVenda) {
+        this.idVenda = idVenda;
+    }
+
+    
+    
     public int getIdCliente() {
         return idCliente;
     }
