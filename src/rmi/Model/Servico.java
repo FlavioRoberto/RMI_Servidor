@@ -6,6 +6,7 @@
 package rmi.Model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -39,8 +40,5 @@ public class Servico implements Serializable {
 
     public void setDataConclusao(Date dataConclusao) {
         this.dataConclusao = dataConclusao;
-    }
-
-    
-    
+    } 
 }
