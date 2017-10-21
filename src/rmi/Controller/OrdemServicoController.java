@@ -35,11 +35,12 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
        try{
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
+           // ps.setInt(1, ordemServico.getIdOrdemServico());
+            ps.setInt(2,ordemServico.getIdFuncionario());
+            ps.setInt(3,ordemServico.getProdutoId());
+            ps.setInt(4,ordemServico.getServicoCompleto());
             ps.setDate(1, new Date(ordemServico.getDataExp().getTime()));
-            ps.setDate(2,new Date(ordemServico.getDataConclusao().getTime()));
-            ps.setInt(3, ordemServico.getIdFuncionario());
-            ps.setInt(4,ordemServico.getIdClienteHasproduto());
-            ps.setInt(5,ordemServico.getIdVenda());
+
             ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -58,8 +59,8 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
           
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql ="INSERT INTO ordemservico(dataExp,dataConclusao,Funcionario_idFuncionario,Cliente_idCliente,Venda_idVenda) VALUES (?,?,?,?,?)";
-            Conexao.closeConection(conexao);
+            String sql ="INSERT INTO ordemservico(dataExp,Funcionario_idFuncionario,Produto_idProduto,servicoCompleto) VALUES (?,?,?,?)";
+           // Conexao.closeConection(conexao);
             return erro = preparaPS(sql, ordemServico, conexao);
             
         }catch(Exception e){

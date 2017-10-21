@@ -15,8 +15,8 @@ import java.util.Date;
  * @author Admin
  */
 public class OrdemServico implements Serializable {
-    private int idOrdemServico, idFuncionario, idVenda,idClienteHasproduto;
-    private Date dataExp, dataConclusao;
+    private int idOrdemServico, idFuncionario, /*idVenda,idClienteHasproduto,*/servicoCompleto,produtoId;
+    private Date dataExp;//, dataConclusao;
 
     public int getIdOrdemServico() {
         return idOrdemServico;
@@ -25,15 +25,34 @@ public class OrdemServico implements Serializable {
     public void setIdOrdemServico(int idOrdemServico) {
         this.idOrdemServico = idOrdemServico;
     }
-
+/*
     public int getIdClienteHasproduto() {
         return idClienteHasproduto;
     }
+*/
+    public int getServicoCompleto() {
+        return servicoCompleto;
+    }
 
+    public void setServicoCompleto(int servicoCompleto) {
+        this.servicoCompleto = servicoCompleto;
+    }
+
+    public int getProdutoId() {
+        return produtoId;
+    }
+
+    public void setProdutoId(int produtoId) {
+        this.produtoId = produtoId;
+    }
+
+    
+    /*
+    
     public void setIdClienteHasproduto(int idClienteHasproduto) {
         this.idClienteHasproduto = idClienteHasproduto;
     }
-
+*/
     
     public int getIdFuncionario() {
         return idFuncionario;
@@ -43,14 +62,15 @@ public class OrdemServico implements Serializable {
         this.idFuncionario = idFuncionario;
     }
 
-
+/*
     public int getIdVenda() {
         return idVenda;
     }
-
+*/
+    /*
     public void setIdVenda(int idVenda) {
         this.idVenda = idVenda;
-    }
+    }*/
 
     public Date getDataExp() {
         return dataExp;
@@ -60,13 +80,14 @@ public class OrdemServico implements Serializable {
         this.dataExp = dataExp;
     }
 
-    public Date getDataConclusao() {
+    /*public Date getDataConclusao() {
         return dataConclusao;
-    }
+    }*/
 
+    /*
     public void setDataConclusao(Date dataConclusao) {
         this.dataConclusao = dataConclusao;
-    }
+    }*/
     
     
 }

@@ -21,6 +21,9 @@ import rmi.Model.Venda;
  */
 public class VendaController implements IControllerBase{
     
+    private final String IDVENDA = "idVenda",QUANTIDADE ="quantidade",
+            IDPRODUTO = "produto_idProduto",IDCLIENTE = "cliente_idCliente";
+    
     @Override
     public String create(Object vendaObj){
         Venda venda = (Venda)vendaObj;
@@ -28,9 +31,11 @@ public class VendaController implements IControllerBase{
         int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "INSERT INTO venda(quantidade) VALUES (?) ";
+            String sql = "INSERT INTO venda("+QUANTIDADE+","+IDPRODUTO+","+IDCLIENTE+") VALUES (?,?,?) ";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, venda.getQuantidade());
+            ps.setInt(2,venda.getProduto_idProduto());
+            ps.setInt(3, venda.getCliente_idCliente());
             retorno = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -74,7 +79,7 @@ public class VendaController implements IControllerBase{
         String erro = "";
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE venda set quantidade ="+venda.getQuantidade()+" WHERE idVenda = "+venda.getIdVenda();
+            String sql = "UPDATE venda set "+QUANTIDADE+"="+venda.getQuantidade()+","+IDPRODUTO+"="+venda.getProduto_idProduto()+","+IDCLIENTE+"="+venda.getCliente_idCliente()+" WHERE "+IDVENDA+" = "+venda.getIdVenda();
             conexao.sentenca.execute(sql);
             Conexao.closeConection(conexao);
             return "Venda atualizada!";
