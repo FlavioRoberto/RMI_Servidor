@@ -6,6 +6,8 @@
 package rmi.Controller;
 
 import Application.Conexao;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import rmi.Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +22,8 @@ import rmi.Model.Venda;
  * @author Admin
  */
 public class VendaController extends UnicastRemoteObject implements IControllerBase{
+
+    public VendaController() throws RemoteException{}
     
     private final String IDVENDA = "idVenda",QUANTIDADE ="quantidade",
             IDPRODUTO = "produto_idProduto",IDCLIENTE = "cliente_idCliente";
