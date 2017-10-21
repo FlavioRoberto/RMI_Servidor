@@ -19,7 +19,7 @@ import rmi.Model.Venda;
  *
  * @author Admin
  */
-public class VendaController implements IControllerBase{
+public class VendaController extends UnicastRemoteObject implements IControllerBase{
     
     private final String IDVENDA = "idVenda",QUANTIDADE ="quantidade",
             IDPRODUTO = "produto_idProduto",IDCLIENTE = "cliente_idCliente";

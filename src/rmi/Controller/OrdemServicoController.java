@@ -6,7 +6,6 @@
 package rmi.Controller;
 
 import Application.Conexao;
-import Application.formataData;
 import rmi.Util.ConexaoBD;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -14,13 +13,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import javafx.scene.input.DataFormat;
 import javax.swing.JOptionPane;
 import rmi.Interface.IControllerBase;
 import rmi.Model.OrdemServico;
-import rmi.Model.Pessoa;
 
 /**
  *
@@ -31,11 +27,10 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
     private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="Funcionario_idFuncionario", ESTADO ="estado",IDVENDA = "venda_idvenda",
             TABELA="ordemservico";
     
- public OrdemServicoController() throws RemoteException{}    
+    public OrdemServicoController() throws RemoteException{}    
     
- 
-//metodo criado pra reaproveitar o codigo no metodo create and update    
- private String preparaPS(String sql,OrdemServico ordemServico,ConexaoBD conexao){
+    //metodo criado pra reaproveitar o codigo no metodo create and update    
+     private String preparaPS(String sql,OrdemServico ordemServico,ConexaoBD conexao){
        try{
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
@@ -150,8 +145,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         return os;
     }
 
-
-     @Override
+    @Override
     public Object findBy(String campo, Object valorProcurado){
         OrdemServico ordemServico  = new OrdemServico();
         
@@ -173,7 +167,6 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         }
          
     }
-    
     
     public ArrayList<Object> findByList(String campo, Object valor){
         ArrayList<Object> listaOs = new ArrayList();
