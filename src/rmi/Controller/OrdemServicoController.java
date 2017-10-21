@@ -28,8 +28,12 @@ import rmi.Model.Pessoa;
  */
 public class OrdemServicoController extends UnicastRemoteObject implements IControllerBase{
 
+    private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="Funcionario_idFuncionario", ESTADO ="estado",IDVENDA = "venda_idvenda",
+            TABELA="ordemservico";
+    
  public OrdemServicoController() throws RemoteException{}    
     
+ 
 //metodo criado pra reaproveitar o codigo no metodo create and update    
  private String preparaPS(String sql,OrdemServico ordemServico,ConexaoBD conexao){
        try{
@@ -37,8 +41,8 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
            // ps.setInt(1, ordemServico.getIdOrdemServico());
             ps.setInt(2,ordemServico.getIdFuncionario());
-            ps.setInt(3,ordemServico.getProdutoId());
-            ps.setInt(4,ordemServico.getServicoCompleto());
+            ps.setInt(3,ordemServico.getEstado());
+            ps.setInt(4,ordemServico.getVendaId());
             ps.setDate(1, new Date(ordemServico.getDataExp().getTime()));
 
             ps.executeUpdate();
@@ -59,7 +63,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
           
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql ="INSERT INTO ordemservico(dataExp,Funcionario_idFuncionario,Produto_idProduto,servicoCompleto) VALUES (?,?,?,?)";
+            String sql ="INSERT INTO "+TABELA+"("+DATAEXP+","+IDFUNC+","+ESTADO+","+IDVENDA+") VALUES (?,?,?,?)";
            // Conexao.closeConection(conexao);
             return erro = preparaPS(sql, ordemServico, conexao);
             
@@ -76,7 +80,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         OrdemServico os = new OrdemServico();
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM ordemservico WHERE idOrdemServico = "+idOrdemServico;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+IDOS+" = "+idOrdemServico;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                os = carregaOs(rs);
@@ -102,8 +106,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         String erro = "";
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE ordemservico SET dataExp = ?, dataConclusao = ?, Funcionario_idFuncionario = ?,"
-                    + "clienteHasProduto_idClienteHasProduto = ?,Venda_idVenda = ?;";
+            String sql = "UPDATE "+TABELA+" SET "+DATAEXP+" = ?, "+IDFUNC+" = ?,"+ESTADO+" = ?,"+IDVENDA+" = ?  WHERE "+IDOS+"="+ordemServico.getIdOrdemServico();
             //PreparedStatement ps = conexao.connection.prepareStatement(sql);
             erro = preparaPS(sql, ordemServico, conexao);
             Conexao.closeConection(conexao);
@@ -120,7 +123,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
        
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "DELETE FROM ordemservico WHERE idOrdemServico = ?";
+            String sql = "DELETE FROM "+TABELA+" WHERE "+IDOS+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idOrdemServico);
             ps.executeUpdate();
@@ -139,11 +142,11 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
     private OrdemServico carregaOs(ResultSet rs) throws SQLException {
         OrdemServico os = new OrdemServico();
          os.setDataExp(new java.util.Date(rs.getDate("dataExp").getTime()));
-                os.setDataConclusao( new java.util.Date (rs.getDate("dataconclusao").getTime()));
-                os.setIdClienteHasproduto(rs.getInt("clienteHasProduto_idClienteHasProduto"));
-                os.setIdFuncionario(rs.getInt("Funcionario_idFuncionario"));
-                os.setIdVenda(rs.getInt("Venda_idVenda"));
-                os.setIdOrdemServico(rs.getInt("idordemServico"));
+                os.setDataExp(new java.util.Date (rs.getDate(DATAEXP).getTime()));
+                os.setIdOrdemServico(rs.getInt(IDOS));
+                os.setIdFuncionario(rs.getInt(IDFUNC));
+                os.setVendaId(rs.getInt(IDVENDA));
+                os.setEstado(rs.getInt(ESTADO));
         return os;
     }
 
@@ -154,7 +157,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM ordemservico WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                ordemServico = carregaOs(rs);  
@@ -177,7 +180,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM ordemservico WHERE "+campo.toLowerCase()+"="+valor;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+"="+valor;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                 OrdemServico os = carregaOs(rs);

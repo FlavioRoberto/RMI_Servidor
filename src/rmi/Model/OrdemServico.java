@@ -15,7 +15,7 @@ import java.util.Date;
  * @author Admin
  */
 public class OrdemServico implements Serializable {
-    private int idOrdemServico, idFuncionario, /*idVenda,idClienteHasproduto,*/servicoCompleto,produtoId;
+    private int idOrdemServico, idFuncionario,estado,idVenda;
     private Date dataExp;//, dataConclusao;
 
     public int getIdOrdemServico() {
@@ -30,20 +30,20 @@ public class OrdemServico implements Serializable {
         return idClienteHasproduto;
     }
 */
-    public int getServicoCompleto() {
-        return servicoCompleto;
+    public int getEstado() {
+        return estado;
     }
 
-    public void setServicoCompleto(int servicoCompleto) {
-        this.servicoCompleto = servicoCompleto;
+    public void setEstado(int servicoCompleto) {
+        this.estado = servicoCompleto;
     }
 
-    public int getProdutoId() {
-        return produtoId;
+    public int getVendaId() {
+        return idVenda;
     }
 
-    public void setProdutoId(int produtoId) {
-        this.produtoId = produtoId;
+    public void setVendaId(int produtoId) {
+        this.idVenda = produtoId;
     }
 
     
@@ -80,6 +80,8 @@ public class OrdemServico implements Serializable {
         this.dataExp = dataExp;
     }
 
+    
+    
     /*public Date getDataConclusao() {
         return dataConclusao;
     }*/
