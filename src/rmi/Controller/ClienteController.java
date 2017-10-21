@@ -134,20 +134,25 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
  }
 
  
- //metodo responscal por carregar em um objeto o cliente encontrdo pelo ResultSet
- private Cliente carregaCliente(ResultSet rs) throws SQLException{
+     PessoaController pessoaController = new PessoaController();
+     
+    private Cliente carregaCliente(ResultSet rs) throws SQLException, RemoteException{
+    PessoaController pessoaController = new PessoaController();
+     
     Cliente cliente = new Cliente();
-     cliente.setCpf(rs.getString("cpf"));
-            cliente.setIdCliente(rs.getInt("idCliente"));
-            cliente.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
-            cliente.setNome(rs.getString("nome"));
-            cliente.setRg(rs.getString("rg"));
-            cliente.setTelefone(rs.getString("telefone"));
-            cliente.setTipo(rs.getString("tipo"));
-      return cliente;      
+    cliente.setIdCliente(rs.getInt("idCliente"));
+    cliente.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
+    cliente.setTipo(rs.getString("tipo"));
+    
+    Pessoa pessoa = (Pessoa)pessoaController.findBy("idPessoa", cliente.getIdPessoa());
+    cliente.setNome(pessoa.getNome());
+    cliente.setRg(pessoa.getRg());
+    cliente.setTelefone(pessoa.getTelefone());
+    cliente.setCpf(pessoa.getCpf());
+    cliente.setIdPessoa(pessoa.getIdPessoa());
+    return cliente;      
  }
- 
- 
+    
   @Override
     public Object findBy(String campo,Object valorProcurado){
         Cliente cliente = new Cliente();
