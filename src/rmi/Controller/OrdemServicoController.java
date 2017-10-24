@@ -24,7 +24,7 @@ import rmi.Model.OrdemServico;
  */
 public class OrdemServicoController extends UnicastRemoteObject implements IControllerBase{
 
-    private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="Funcionario_idFuncionario", ESTADO ="estado",IDVENDA = "venda_idvenda",
+    private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="fk_funcionario", ESTADO ="estado",IDVENDA = "fk_venda",
             TABELA="ordemservico";
     
     public OrdemServicoController() throws RemoteException{}    
@@ -34,11 +34,12 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
        try{
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
-           // ps.setInt(1, ordemServico.getIdOrdemServico());
+            //ps.setInt(5, ordemServico.getIdOrdemServico());
+            ps.setDate(1, new Date(ordemServico.getDataExp().getTime()));
             ps.setInt(2,ordemServico.getIdFuncionario());
             ps.setInt(3,ordemServico.getEstado());
             ps.setInt(4,ordemServico.getVendaId());
-            ps.setDate(1, new Date(ordemServico.getDataExp().getTime()));
+            
 
             ps.executeUpdate();
             ps.close();
@@ -58,7 +59,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
           
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql ="INSERT INTO "+TABELA+"("+DATAEXP+","+IDFUNC+","+ESTADO+","+IDVENDA+") VALUES (?,?,?,?)";
+            String sql ="INSERT INTO "+TABELA+"("+DATAEXP+","+IDFUNC+","+ESTADO+","+IDVENDA+")VALUES (?,?,?,?)";
            // Conexao.closeConection(conexao);
             return erro = preparaPS(sql, ordemServico, conexao);
             

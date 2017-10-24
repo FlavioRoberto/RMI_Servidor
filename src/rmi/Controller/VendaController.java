@@ -35,16 +35,17 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "INSERT INTO venda("+QUANTIDADE+","+IDPRODUTO+","+IDCLIENTE+") VALUES (?,?,?) ";
+            String sql = "INSERT INTO venda("+QUANTIDADE+","+IDPRODUTO+","+IDCLIENTE+", idVenda) VALUES (?,?,?,?) ";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, venda.getQuantidade());
             ps.setInt(2,venda.getProduto_idProduto());
             ps.setInt(3, venda.getCliente_idCliente());
+            ps.setInt(4, venda.getIdVenda());
             retorno = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
             
-            return "Venda cadastrada!";
+            return "Venda Cadastrada!";
         }catch(Exception e){
             erro = "Erro: \n"+e.getMessage();
         }
@@ -127,8 +128,10 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
 
     private Venda carregaVenda(ResultSet rs) throws SQLException {
         Venda venda = new Venda();
-         venda.setQuantidade(rs.getInt("quantidade"));
-                venda.setIdVenda(rs.getInt("idVenda"));
+        venda.setQuantidade(rs.getInt("quantidade"));
+        venda.setIdVenda(rs.getInt("idVenda"));
+        venda.setCliente_idCliente(rs.getInt("cliente_idCliente"));
+        venda.setProduto_idProduto(rs.getInt("produto_idProduto"));
         return venda;        
     }
     
@@ -162,7 +165,7 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM venda WHERE "+campo.toLowerCase()+"="+valor;
+            String sql = "SELECT * FROM venda WHERE "+campo+" = " + valor;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                 Venda venda = carregaVenda(rs);

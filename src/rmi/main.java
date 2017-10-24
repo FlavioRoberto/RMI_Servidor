@@ -52,8 +52,6 @@ public class main {
        // os.setDataConclusao(formataData.dataAtual());
         os.setDataExp(formataData.dataAtual());
         os.setIdFuncionario(3);
-        os.setProdutoId(6);
-        os.setServicoCompleto(0);
         
         Cliente cliente = new Cliente();
         ClienteController cliController = new ClienteController();
