@@ -24,8 +24,9 @@ import rmi.Model.OrdemServico;
  */
 public class OrdemServicoController extends UnicastRemoteObject implements IControllerBase{
 
-    private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="fk_funcionario", ESTADO ="estado",IDVENDA = "fk_venda",
-            TABELA="ordemservico";
+    
+    private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="fk_funcionario", IDSERVICOATUAL ="estado",IDVENDA = "fk_venda",
+            TABELA="ordemservico",DESCORDEM="descricaoOrdem",COMPLETADO="completado",DATAHINICIO="dataHoraInicio",DATAHFIM="dataHoraFim";
     
     public OrdemServicoController() throws RemoteException{}    
     
@@ -35,11 +36,14 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
             //ps.setInt(5, ordemServico.getIdOrdemServico());
-            ps.setDate(1, new Date(ordemServico.getDataExp().getTime()));
-            ps.setInt(2,ordemServico.getIdFuncionario());
-            ps.setInt(3,ordemServico.getEstado());
-            ps.setInt(4,ordemServico.getVendaId());
-            
+           // ps.setInt(1,ordemServico.getIdOrdemServico());   
+            ps.setInt(1,ordemServico.getIdFuncionario());  
+            ps.setInt(2,ordemServico.getIdVenda());      
+            ps.setInt(3,ordemServico.getIdServico());  
+            ps.setString(4,ordemServico.getDescricao());
+            ps.setBoolean(5,ordemServico.isCompletado());
+            ps.setDate(6, (Date) ordemServico.getDataInicio());
+            ps.setDate(7, (Date) ordemServico.getDataFim());
 
             ps.executeUpdate();
             ps.close();
@@ -59,7 +63,8 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
           
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql ="INSERT INTO "+TABELA+"("+DATAEXP+","+IDFUNC+","+ESTADO+","+IDVENDA+")VALUES (?,?,?,?)";
+            String sql ="INSERT INTO "+TABELA+"("+IDFUNC+","+IDVENDA+","+IDSERVICOATUAL+","
+                    +DESCORDEM+","+COMPLETADO+","+DATAHINICIO+","+DATAHFIM+")VALUES (?,?,?,?,?,?,?)";
            // Conexao.closeConection(conexao);
             return erro = preparaPS(sql, ordemServico, conexao);
             
@@ -102,7 +107,8 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         String erro = "";
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE "+TABELA+" SET "+DATAEXP+" = ?, "+IDFUNC+" = ?,"+ESTADO+" = ?,"+IDVENDA+" = ?  WHERE "+IDOS+"="+ordemServico.getIdOrdemServico();
+            String sql = "UPDATE "+TABELA+" SET "+IDFUNC+" = ?, "+IDVENDA+"= ?,"+IDSERVICOATUAL+"=?,"
+                    +DESCORDEM+"=?,"+COMPLETADO+"=?,"+DATAHINICIO+"=?,"+DATAHFIM+"=? WHERE "+IDOS+"="+ordemServico.getIdOrdemServico();
             //PreparedStatement ps = conexao.connection.prepareStatement(sql);
             erro = preparaPS(sql, ordemServico, conexao);
             Conexao.closeConection(conexao);
@@ -137,13 +143,16 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
 
     private OrdemServico carregaOs(ResultSet rs) throws SQLException {
         OrdemServico os = new OrdemServico();
-         os.setDataExp(new java.util.Date(rs.getDate("dataExp").getTime()));
-                os.setDataExp(new java.util.Date (rs.getDate(DATAEXP).getTime()));
+
                 os.setIdOrdemServico(rs.getInt(IDOS));
                 os.setIdFuncionario(rs.getInt(IDFUNC));
-                os.setVendaId(rs.getInt(IDVENDA));
-                os.setEstado(rs.getInt(ESTADO));
-        return os;
+                os.setIdVenda(rs.getInt(IDVENDA));
+                os.setCompletado(rs.getBoolean(COMPLETADO));
+                os.setDataFim(rs.getDate(DATAHFIM));
+                os.setDataInicio(rs.getDate(DATAHINICIO));
+                os.setDescricao(rs.getString(DESCORDEM));
+                os.setIdServico(rs.getInt(IDSERVICOATUAL));
+                return os;
     }
 
     @Override

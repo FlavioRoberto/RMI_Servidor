@@ -13,8 +13,8 @@ import java.util.Date;
  * @author Admin
  */
 public class Servico implements Serializable {
-    private int idServico,idOS;
-    private Date dataConclusao;
+    private int idServico;
+    private String descricao;
     
     
 
@@ -26,19 +26,13 @@ public class Servico implements Serializable {
         this.idServico = idServico;
     }
 
-    public int getIdOS() {
-        return idOS;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setIdOS(int idOS) {
-        this.idOS = idOS;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public Date getDataConclusao() {
-        return dataConclusao;
-    }
-
-    public void setDataConclusao(Date dataConclusao) {
-        this.dataConclusao = dataConclusao;
-    } 
+    
 }

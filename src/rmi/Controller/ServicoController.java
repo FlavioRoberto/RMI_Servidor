@@ -23,7 +23,7 @@ import rmi.Util.ConexaoBD;
  */
 public class ServicoController extends UnicastRemoteObject implements IControllerBase{
 
-    private final String IDSERVICO = "idServico",IDOS = "OrdemServico_idOrdemServico",DATACONCLUSAO = "dataConclusao",TABELA = "servico";
+    private final String IDSERVICO = "idServico",DESCRICAO = "descricao",TABELA = "servico";
     
     public ServicoController() throws RemoteException {
     }
@@ -34,8 +34,8 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
            // ps.setInt(1, ordemServico.getIdOrdemServico());
-            ps.setInt(1,servico.getIdOS());
-            ps.setDate(2, new Date(servico.getDataConclusao().getTime()));
+            ps.setInt(1,servico.getIdServico());
+            ps.setString(2, servico.getDescricao());
 
             ps.executeUpdate();
             ps.close();
@@ -55,9 +55,10 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
           
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql ="INSERT INTO "+TABELA+"("+IDOS+","+DATACONCLUSAO+") VALUES (?,?)";
+            String sql ="INSERT INTO "+TABELA+"("+DESCRICAO+") VALUES (?)";
+            conexao.sentenca.execute(sql);
            // Conexao.closeConection(conexao);
-            return erro = preparaPS(sql, servico, conexao);
+            return erro = "Ordem de serviço cadastrada!";
             
         }catch(Exception e){
             erro += "Erro: \n"+e.getMessage();
@@ -72,7 +73,7 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM ordemservico WHERE idOrdemServico = "+idOrdemServico;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+IDSERVICO+" = "+idOrdemServico;
             //ResultSet rs = conexao.sentenca.executeQuery(sql);
                         
             //rs.close();
@@ -95,7 +96,7 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
         String erro = "";
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE "+TABELA+" SET "+IDOS+","+DATACONCLUSAO+" WHERE "+IDSERVICO+"="+servico.getIdServico();
+            String sql = "UPDATE "+TABELA+" SET "+DESCRICAO+" = ? WHERE "+IDSERVICO+"= ?";
             //PreparedStatement ps = conexao.connection.prepareStatement(sql);
             erro = preparaPS(sql, servico, conexao);
             Conexao.closeConection(conexao);
@@ -112,7 +113,7 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
        
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "DELETE FROM "+TABELA+" WHERE idOrdemServico = ?";
+            String sql = "DELETE FROM "+TABELA+" WHERE "+IDSERVICO+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idOrdemServico);
             ps.executeUpdate();
@@ -130,9 +131,8 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
 
     private Servico carregaServico(ResultSet rs) throws SQLException {
         Servico servico = new Servico();
-         servico.setDataConclusao(new java.util.Date(rs.getDate(DATACONCLUSAO).getTime()));
-         servico.setIdServico(rs.getInt(IDOS));
-         servico.setIdServico(rs.getInt(IDSERVICO));
+        servico.setIdServico(rs.getInt(IDSERVICO));
+         servico.setDescricao(rs.getString(DESCRICAO));
         return servico;
     }
 

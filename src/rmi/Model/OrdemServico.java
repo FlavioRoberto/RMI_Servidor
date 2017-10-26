@@ -14,9 +14,15 @@ import java.util.Date;
  *
  * @author Admin
  */
+
+   
+
 public class OrdemServico implements Serializable {
-    private int idOrdemServico, idFuncionario,estado,idVenda;
-    private Date dataExp;//, dataConclusao;
+    private int idOrdemServico, idFuncionario,idServico,idVenda;
+    private String Descricao;
+    private boolean completado;
+
+    private Date dataInicio, dataFim;//, dataConclusao;
 
     public int getIdOrdemServico() {
         return idOrdemServico;
@@ -25,35 +31,7 @@ public class OrdemServico implements Serializable {
     public void setIdOrdemServico(int idOrdemServico) {
         this.idOrdemServico = idOrdemServico;
     }
-/*
-    public int getIdClienteHasproduto() {
-        return idClienteHasproduto;
-    }
-*/
-    public int getEstado() {
-        return estado;
-    }
 
-    public void setEstado(int servicoCompleto) {
-        this.estado = servicoCompleto;
-    }
-
-    public int getVendaId() {
-        return idVenda;
-    }
-
-    public void setVendaId(int produtoId) {
-        this.idVenda = produtoId;
-    }
-
-    
-    /*
-    
-    public void setIdClienteHasproduto(int idClienteHasproduto) {
-        this.idClienteHasproduto = idClienteHasproduto;
-    }
-*/
-    
     public int getIdFuncionario() {
         return idFuncionario;
     }
@@ -62,34 +40,53 @@ public class OrdemServico implements Serializable {
         this.idFuncionario = idFuncionario;
     }
 
-/*
+    public int getIdServico() {
+        return idServico;
+    }
+
+    public void setIdServico(int idServico) {
+        this.idServico = idServico;
+    }
+
     public int getIdVenda() {
         return idVenda;
     }
-*/
-    /*
+
     public void setIdVenda(int idVenda) {
         this.idVenda = idVenda;
-    }*/
-
-    public Date getDataExp() {
-        return dataExp;
     }
 
-    public void setDataExp(Date dataExp) {
-        this.dataExp = dataExp;
+    public String getDescricao() {
+        return Descricao;
     }
 
-    
-    
-    /*public Date getDataConclusao() {
-        return dataConclusao;
-    }*/
+    public void setDescricao(String Descricao) {
+        this.Descricao = Descricao;
+    }
 
-    /*
-    public void setDataConclusao(Date dataConclusao) {
-        this.dataConclusao = dataConclusao;
-    }*/
-    
+    public boolean isCompletado() {
+        return completado;
+    }
+
+    public void setCompletado(boolean completado) {
+        this.completado = completado;
+    }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
+    }
+
     
 }
