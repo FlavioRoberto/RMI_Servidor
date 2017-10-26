@@ -66,14 +66,12 @@ create table carrinho(
 ); 
 
 
-
 create table servico(
 	idServico int not null auto_increment primary key,
     descricaoServico varchar(30) not null
 );
 
 
-    
 create table ordem_servico(
 	idOrdemServico int not null auto_increment primary key,
     idFuncionarioExecutaOS int not null,

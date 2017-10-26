@@ -25,6 +25,8 @@ public class PessoaController extends UnicastRemoteObject implements IController
     
     public PessoaController() throws RemoteException{}
     
+    private final String TABELA = "pessoa",ID="idPessoa",NOME="nome",CPF="cpf",RG="rg",TELEFONE="telefone",CELULAR="celular";
+    
     @Override
     public String create(Object pessoaObjetc){
         Pessoa pessoa = (Pessoa)pessoaObjetc;
@@ -32,13 +34,15 @@ public class PessoaController extends UnicastRemoteObject implements IController
         String erro ="";
         try {           
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "INSERT INTO pessoa(nome,cpf,rg,telefone) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO pessoa("+NOME+","+CPF+","+RG+","+TELEFONE+","+CELULAR+") VALUES (?,?,?,?,?)";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             
             ps.setString(1, pessoa.getNome());
             ps.setString(2,pessoa.getCpf());
             ps.setString(3,pessoa.getRg());
             ps.setString(4,pessoa.getTelefone());
+            ps.setString(4,pessoa.getCelular());
+ 
             retorno = ps.executeUpdate();
             ps.close();
             
@@ -62,15 +66,17 @@ public class PessoaController extends UnicastRemoteObject implements IController
     
         try{       
             ConexaoBD conexao  = new ConexaoBD();
-            String sql = "SELECT * FROM pessoa WHERE idPessoa = "+idPessoa;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+ID+" = "+idPessoa;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             
             while(rs.next()){
-                pessoa.setCpf(rs.getString("cpf"));
-                pessoa.setIdPessoa(rs.getInt("idPessoa"));
-                pessoa.setNome(rs.getString("nome"));
-                pessoa.setRg(rs.getString("rg"));
-                pessoa.setTelefone(rs.getString("telefone"));
+                pessoa.setCpf(rs.getString(CPF));
+                pessoa.setIdPessoa(rs.getInt(ID));
+                pessoa.setNome(rs.getString(NOME));
+                pessoa.setRg(rs.getString(RG));
+                pessoa.setTelefone(rs.getString(TELEFONE));
+                pessoa.setCelular(rs.getString(CELULAR));
+                
             }
             
             rs.close();
@@ -94,14 +100,15 @@ public class PessoaController extends UnicastRemoteObject implements IController
       try{
       
           ConexaoBD conexao = new ConexaoBD();
-          String sql = "UPDATE pessoa SET nome = ?, cpf = ?, rg = ?, telefone = ? WHERE idPessoa = ?";
+          String sql = "UPDATE "+TABELA+" SET "+NOME+" = ?, "+CPF+" = ?, "+RG+" = ?, "+TELEFONE+" = ?,"+CELULAR+" = ? WHERE "+ID+" = ?";
           PreparedStatement ps = conexao.connection.prepareStatement(sql);
           
           ps.setString(1,pessoa.getNome());
           ps.setString(2,pessoa.getCpf());
           ps.setString(3,pessoa.getRg());
           ps.setString(4,pessoa.getTelefone());
-          ps.setInt(5,pessoa.getIdPessoa());
+          ps.setString(5,pessoa.getCelular());
+          ps.setInt(6,pessoa.getIdPessoa());
           retorno = ps.executeUpdate();
           
           ps.close();
@@ -130,7 +137,7 @@ public class PessoaController extends UnicastRemoteObject implements IController
         try{
            
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "DELETE FROM pessoa where idPessoa = "+idPessoa;
+            String sql = "DELETE FROM "+TABELA+" where "+ID+" = "+idPessoa;
             retorno = conexao.sentenca.execute(sql);
             Conexao.closeConection(conexao);
             
@@ -153,7 +160,7 @@ public class PessoaController extends UnicastRemoteObject implements IController
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM pessoa WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                pessoa = carregaPessoa(rs);  
@@ -176,7 +183,7 @@ public class PessoaController extends UnicastRemoteObject implements IController
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM pessoa WHERE "+campo.toLowerCase()+"="+valor;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+"="+valor;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                 Pessoa pessoa = carregaPessoa(rs);
@@ -193,11 +200,13 @@ public class PessoaController extends UnicastRemoteObject implements IController
     
     private Pessoa carregaPessoa(ResultSet rs) throws SQLException{
          Pessoa pessoa = new Pessoa();
-         pessoa.setCpf(rs.getString("cpf"));
-         pessoa.setIdPessoa(rs.getInt("idPessoa"));
-         pessoa.setNome(rs.getString("nome"));
-         pessoa.setRg(rs.getString("rg"));
-         pessoa.setTelefone(rs.getString("telefone"));
+         pessoa.setCpf(rs.getString(CPF));
+         pessoa.setIdPessoa(rs.getInt(ID));
+         pessoa.setNome(rs.getString(NOME));
+         pessoa.setRg(rs.getString(RG));
+         pessoa.setTelefone(rs.getString(TELEFONE));
+         pessoa.setCelular(rs.getString(CELULAR));
+         
          return pessoa;
     }
     

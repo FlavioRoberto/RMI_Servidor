@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class Pessoa implements Serializable{
     private int idPessoa;
-    private String nome,cpf,rg,telefone;
+    private String nome,cpf,rg,telefone,celular;
 
     public int getIdPessoa() {
         return idPessoa;
@@ -54,6 +54,15 @@ public class Pessoa implements Serializable{
     public void setTelefone(String telefone) {
         this.telefone = telefone;
     }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
     
     
+
 }
