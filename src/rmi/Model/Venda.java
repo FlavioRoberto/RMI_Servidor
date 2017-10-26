@@ -6,13 +6,16 @@
 package rmi.Model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
  * @author Admin
  */
 public class Venda implements Serializable {
-    private int idVenda, quantidade,produto_idProduto,cliente_idCliente;
+    private int idVenda,idCliente,idFuncionario;
+    private Date data;
+    private float valorTotal;
 
     public int getIdVenda() {
         return idVenda;
@@ -22,29 +25,40 @@ public class Venda implements Serializable {
         this.idVenda = idVenda;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public int getIdFuncionario() {
+        return idFuncionario;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setIdFuncionario(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
     }
 
-    public int getProduto_idProduto() {
-        return produto_idProduto;
+    
+
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setProduto_idProduto(int produto_idProduto) {
-        this.produto_idProduto = produto_idProduto;
+    public void setIdCliente(int cliente_idCliente) {
+        this.idCliente = cliente_idCliente;
     }
 
-    public int getCliente_idCliente() {
-        return cliente_idCliente;
+    public Date getData() {
+        return data;
     }
 
-    public void setCliente_idCliente(int cliente_idCliente) {
-        this.cliente_idCliente = cliente_idCliente;
+    public void setData(Date data) {
+        this.data = data;
     }
+
+    public float getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(float valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+    
     
     
     

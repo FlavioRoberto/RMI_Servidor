@@ -8,6 +8,7 @@ package rmi.Controller;
 import Application.Conexao;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.Date;
 import rmi.Util.ConexaoBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,25 +23,25 @@ import rmi.Model.Venda;
  * @author Admin
  */
 public class VendaController extends UnicastRemoteObject implements IControllerBase{
+     
+    private final String TABELA="venda",ID = "idVenda",ID_CLIENTE="idCliente",ID_FUNCIONARIO="idFuncionario",DATA="dataVenda",
+            VALOR_TOTAL="valorTotal";
 
     public VendaController() throws RemoteException{}
     
-    private final String IDVENDA = "idVenda",QUANTIDADE ="quantidade",
-            IDPRODUTO = "produto_idProduto",IDCLIENTE = "cliente_idCliente";
-    
-    @Override
+     @Override
     public String create(Object vendaObj){
         Venda venda = (Venda)vendaObj;
         String erro = "";
         int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "INSERT INTO venda("+QUANTIDADE+","+IDPRODUTO+","+IDCLIENTE+", idVenda) VALUES (?,?,?,?) ";
+            String sql = "INSERT INTO venda("+ID_CLIENTE+","+ID_FUNCIONARIO+","+DATA+","+VALOR_TOTAL+") VALUES (?,?,?,?) ";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
-            ps.setInt(1, venda.getQuantidade());
-            ps.setInt(2,venda.getProduto_idProduto());
-            ps.setInt(3, venda.getCliente_idCliente());
-            ps.setInt(4, venda.getIdVenda());
+            ps.setInt(1, venda.getIdCliente());
+            ps.setInt(2,venda.getIdFuncionario());
+            ps.setDate(3, (Date) venda.getData());
+            ps.setFloat(4, venda.getValorTotal());
             retorno = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -64,7 +65,7 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
        Venda venda = new Venda();
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM venda WHERE idVenda = "+idVenda;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+ID+" = "+idVenda;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                venda = carregaVenda(rs);
@@ -84,7 +85,10 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         String erro = "";
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE venda set "+QUANTIDADE+"="+venda.getQuantidade()+","+IDPRODUTO+"="+venda.getProduto_idProduto()+","+IDCLIENTE+"="+venda.getCliente_idCliente()+" WHERE "+IDVENDA+" = "+venda.getIdVenda();
+            String sql = "UPDATE venda set "+ID_CLIENTE+"="+venda.getIdCliente()+","+ID_FUNCIONARIO+"="
+                    +venda.getIdFuncionario()+","+DATA+"="+venda.getData()+" WHERE "+VALOR_TOTAL+" = "
+                    +venda.getValorTotal();
+            
             conexao.sentenca.execute(sql);
             Conexao.closeConection(conexao);
             return "Venda atualizada!";
@@ -106,7 +110,7 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
      int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "DELETE  FROM venda WHERE idVenda = ?";
+            String sql = "DELETE  FROM "+TABELA+" WHERE "+ID+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idVenda);
             retorno = ps.executeUpdate();
@@ -128,10 +132,11 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
 
     private Venda carregaVenda(ResultSet rs) throws SQLException {
         Venda venda = new Venda();
-        venda.setQuantidade(rs.getInt("quantidade"));
-        venda.setIdVenda(rs.getInt("idVenda"));
-        venda.setCliente_idCliente(rs.getInt("cliente_idCliente"));
-        venda.setProduto_idProduto(rs.getInt("produto_idProduto"));
+        venda.setIdVenda(rs.getInt(ID));
+        venda.setData(rs.getDate(DATA));
+        venda.setIdCliente(rs.getInt(ID_CLIENTE));
+        venda.setIdFuncionario(rs.getInt(ID_FUNCIONARIO));
+        venda.setValorTotal(rs.getFloat(VALOR_TOTAL));
         return venda;        
     }
     
@@ -142,7 +147,7 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM venda WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                venda = carregaVenda(rs);  
@@ -165,7 +170,7 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM venda WHERE "+campo+" = " + valor;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo+" = " + valor;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                 Venda venda = carregaVenda(rs);
