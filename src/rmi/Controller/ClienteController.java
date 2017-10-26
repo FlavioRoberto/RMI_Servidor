@@ -24,6 +24,8 @@ import rmi.Model.Pessoa;
  */
 public class ClienteController extends UnicastRemoteObject implements IControllerBase{
  
+    private final String TABELA="cliente",ID="idCliente",TIPO="tipo",ID_PESSOA="idPessoa";
+    
  public ClienteController() throws RemoteException{}
     
  @Override   
@@ -35,7 +37,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
          //insere e retorna a pessoa pra inserir na tabela cliente
          Pessoa pessoa = inserePessoaCliente(cliente);
          ConexaoBD conexao = new ConexaoBD(); 
-         String sql = "INSERT INTO cliente (tipo,Pessoa_idPessoa) VALUES (?,?)"; //sentença de inserir
+         String sql = "INSERT INTO "+TABELA+" ("+TIPO+","+ID_PESSOA+") VALUES (?,?)"; //sentença de inserir
          PreparedStatement ps = conexao.connection.prepareStatement(sql); //prepara a string pra inserção
          ps.setString(1, cliente.getTipo());//na posição 1 (?) pegue o tipo do cliente
          ps.setInt(2, pessoa.getIdPessoa());
@@ -71,7 +73,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
  public Cliente read (int idCliente){
      Cliente cliente = new Cliente(); //objeto pra carregar os valores do banco
      ConexaoBD conexao = new ConexaoBD(); //objeto de conexao 
-     String sql = "select *  from cliente as c  inner join pessoa   on idCliente ="+idCliente; //script de consulta pega o valor do cliente e da pessoa relacionada a ele
+     String sql = "select *  from "+TABELA+" as c  inner join pessoa   on "+ID+" ="+idCliente; //script de consulta pega o valor do cliente e da pessoa relacionada a ele
      try{
          ResultSet rs = conexao.sentenca.executeQuery(sql); //responsavel por varrer a tabela em busca dos valores
          while(rs.next()){ //enquanto existir item carrega os valores no objeto
@@ -92,8 +94,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
     String erro = "";
     try{
       ConexaoBD conexao = new ConexaoBD();
-      String sql = "update pessoa set nome = '"+cliente.getNome()+"',cpf='"+cliente.getCpf()+"',rg='"+cliente.getRg()+
-                "',telefone ='"+cliente.getTelefone()+"' where idPessoa = "+cliente.getIdPessoa()+";";
+      String sql = "UPDATE FROM "+TABELA+" SET "+TIPO+"="+cliente.getTipo()+" WHERE "+ID+"="+cliente.getIdCliente();
     //  String sql2 =  "update cliente set tipo ='"+cliente.getTipo()+"' where idCliente = "+cliente.getIdCliente()+";";
      
       retorno = conexao.sentenca.execute(sql);
@@ -117,7 +118,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
      
      try{
          ConexaoBD conexao = new ConexaoBD();
-         String sql = "DELETE FROM cliente where idCliente = ?";
+         String sql = "DELETE FROM "+TABELA+" where "+ID+" = ?";
          PreparedStatement ps = conexao.connection.prepareStatement(sql);
          ps.setInt(1, idCliente);
          retorno = ps.executeUpdate();
@@ -140,11 +141,11 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
     PessoaController pessoaController = new PessoaController();
      
     Cliente cliente = new Cliente();
-    cliente.setIdCliente(rs.getInt("idCliente"));
-    cliente.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
-    cliente.setTipo(rs.getString("tipo"));
+    cliente.setIdCliente(rs.getInt(ID));
+    cliente.setIdPessoa(rs.getInt(ID_PESSOA));
+    cliente.setTipo(rs.getString(TIPO));
     
-    Pessoa pessoa = (Pessoa)pessoaController.findBy("idPessoa", cliente.getIdPessoa());
+    Pessoa pessoa = (Pessoa)pessoaController.findBy(ID_PESSOA, cliente.getIdPessoa());
     cliente.setNome(pessoa.getNome());
     cliente.setRg(pessoa.getRg());
     cliente.setTelefone(pessoa.getTelefone());
@@ -159,7 +160,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM cliente WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                cliente = carregaCliente(rs);  
@@ -181,7 +182,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM cliente WHERE "+campo.toLowerCase()+"="+valor;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+"="+valor;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                 Cliente cliente = carregaCliente(rs);
