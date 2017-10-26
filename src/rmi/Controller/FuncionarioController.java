@@ -25,6 +25,9 @@ import rmi.Model.Pessoa;
  */
 public class FuncionarioController extends UnicastRemoteObject implements IControllerBase {
    
+    private final String TABELA="funcionario", ID = "idFuncionario", ID_PESSOA = "idPessoa",SALARIO="salario",ESPECIALIDADE="especialidade",SENHA="senha";
+    
+    
     public FuncionarioController() throws RemoteException{}
     
      @Override  
@@ -37,7 +40,7 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
            Pessoa pessoa = inserePessoaFuncionairio(funcionario);
            ConexaoBD conexao = new ConexaoBD();
 
-            String sql = "INSERT INTO funcionario(salario,especialidade,senha,Pessoa_idPessoa) VALUES(?,?,?,?)";
+            String sql = "INSERT INTO "+TABELA+"("+ID_PESSOA+","+SALARIO+","+ESPECIALIDADE+","+SENHA+") VALUES(?,?,?,?)";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setFloat(1,funcionario.getSalario());
             ps.setString(2,funcionario.getEspecialidade());
@@ -78,7 +81,7 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         
         try{
            ConexaoBD conexao = new ConexaoBD();
-           String sql = "SELECT * FROM funcionario INNER JOIN pessoa on idFuncionario = "+idFuncionario;
+           String sql = "SELECT * FROM "+TABELA+" INNER JOIN pessoa on "+ID+" = "+idFuncionario;
            ResultSet rs = conexao.sentenca.executeQuery(sql);
            while(rs.next()){
              funcionario = carregaFuncionario(rs);               
@@ -113,7 +116,7 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
             retorno = ps.executeUpdate();
             ps.close();
             
-            String sql2 = "UPDATE funcionario SET salario = ?, especialidade = ? WHERE idFuncionario = ?";
+            String sql2 = "UPDATE "+TABELA+" SET "+SALARIO+" = ?, "+ESPECIALIDADE+" = ? WHERE "+ID+" = ?";
             PreparedStatement ps2 = conexao.connection.prepareStatement(sql2);
             
             ps2.setFloat(1, funcionario.getSalario());
@@ -143,7 +146,7 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "DELETE FROM funcionario WHERE Pessoa_idPessoa = ?";
+            String sql = "DELETE FROM "+TABELA+" WHERE "+ID_PESSOA+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idFuncionario);
             retorno = ps.executeUpdate();
@@ -173,13 +176,13 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         PessoaController  pessoaController = new PessoaController();
        
         Funcionario funcionario = new Funcionario();
-        funcionario.setEspecialidade(rs.getString("especialidade"));
-        funcionario.setIdFuncionario(rs.getInt("idFuncionario"));
-        funcionario.setSalario(rs.getFloat("salario"));
-        funcionario.setIdPessoa(rs.getInt("Pessoa_idPessoa"));
-        funcionario.setSenha(rs.getString("senha"));
+        funcionario.setEspecialidade(rs.getString(ESPECIALIDADE));
+        funcionario.setIdFuncionario(rs.getInt(ID));
+        funcionario.setSalario(rs.getFloat(SALARIO));
+        funcionario.setIdPessoa(rs.getInt(ID_PESSOA));
+        funcionario.setSenha(rs.getString(SENHA));
         
-        Pessoa pessoa = (Pessoa)pessoaController.findBy("idPessoa", funcionario.getIdPessoa());
+        Pessoa pessoa = (Pessoa)pessoaController.findBy(ID_PESSOA, funcionario.getIdPessoa());
         funcionario.setNome(pessoa.getNome());
         funcionario.setRg(pessoa.getRg());
         funcionario.setTelefone(pessoa.getTelefone());
@@ -196,7 +199,7 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM funcionario WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                funcionario = carregaFuncionario(rs);  
@@ -218,7 +221,7 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM funcionario WHERE "+campo.toLowerCase()+"="+valor;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+"="+valor;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                 Funcionario funcionario = carregaFuncionario(rs);

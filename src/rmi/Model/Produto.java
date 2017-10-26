@@ -15,10 +15,21 @@ public class Produto implements Serializable{
     private int idProduto;
     private String nome;
     private float preco;
+    private int quantidade;
 
     public int getIdProduto() {
         return idProduto;
     }
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+    
+    
 
     public void setIdProduto(int idProduto) {
         this.idProduto = idProduto;
