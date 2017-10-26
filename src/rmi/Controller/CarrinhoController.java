@@ -13,30 +13,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import rmi.Interface.IControllerBase;
-import rmi.Model.Cliente_has_produto;
+import rmi.Model.Carrinho;
 import rmi.Util.ConexaoBD;
 
 /**
  *
  * @author Admin
  */
-public class Cliente_has_produtoController extends UnicastRemoteObject implements IControllerBase {
+public class CarrinhoController extends UnicastRemoteObject implements IControllerBase {
+   
+    private final String TABELA = "Carrinho",IDVENDA = "idVenda",IDPRODUTO = "idProduto",QUANTIDADE = "Venda_idVenda";
 
-    private final String TABELA = "Cliente_has_Produto",IDCLIENTE = "Cliente_idCliente",IDPRODUTO = "Produto_idProduto",IDVENDA = "Venda_idVenda";
-
-    public Cliente_has_produtoController() throws RemoteException{
+    public CarrinhoController() throws RemoteException{
     }
     
    
     @Override
     public String create(Object ordemServicoObj) {
-        Cliente_has_produto chs = (Cliente_has_produto)ordemServicoObj;
+        Carrinho chs = (Carrinho)ordemServicoObj;
        int retorno = 0;
        String erro = "";
           
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql ="INSERT INTO"+TABELA+"("+IDCLIENTE+","+IDPRODUTO+""+IDVENDA+") VALUES (?,?,?)";
+            String sql ="INSERT INTO"+TABELA+"("+IDVENDA+","+IDPRODUTO+""+QUANTIDADE+") VALUES (?,?,?)";
             return erro = preparaPS(sql, chs, conexao);
             
         }catch(Exception e){
@@ -48,8 +48,8 @@ public class Cliente_has_produtoController extends UnicastRemoteObject implement
     }
    
     @Override
-    public Cliente_has_produto read(int idOrdemServico){
-        Cliente_has_produto chp = new Cliente_has_produto();
+    public Carrinho read(int idOrdemServico){
+        Carrinho chp = new Carrinho();
         try{
             ConexaoBD conexao = new ConexaoBD();
             String sql = "SELECT * FROM "+TABELA+" WHERE idOrdemServico = "+idOrdemServico;
@@ -73,12 +73,12 @@ public class Cliente_has_produtoController extends UnicastRemoteObject implement
 
     @Override
     public String update(Object chp){
-        Cliente_has_produto ordemServico = (Cliente_has_produto)chp;
+        Carrinho ordemServico = (Carrinho)chp;
         int retorno = 0;
         String erro = "";
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE "+TABELA+" SET "+IDCLIENTE+" = ?, "+IDPRODUTO+" = ?, "+IDVENDA+" = ?";
+            String sql = "UPDATE "+TABELA+" SET "+IDVENDA+" = ?, "+IDPRODUTO+" = ?, "+QUANTIDADE+" = ?";
             //PreparedStatement ps = conexao.connection.prepareStatement(sql);
             erro = preparaPS(sql, ordemServico, conexao);
             Conexao.closeConection(conexao);
@@ -95,7 +95,7 @@ public class Cliente_has_produtoController extends UnicastRemoteObject implement
        
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "DELETE FROM "+TABELA+" WHERE "+IDCLIENTE+" = ?";
+            String sql = "DELETE FROM "+TABELA+" WHERE "+IDVENDA+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idCliente);
             ps.executeUpdate();
@@ -111,18 +111,18 @@ public class Cliente_has_produtoController extends UnicastRemoteObject implement
         return erro;
     }
 
-    private Cliente_has_produto carregaCHP(ResultSet rs) throws SQLException {
-        Cliente_has_produto chp = new Cliente_has_produto();
-         chp.setIdCliente(rs.getInt(IDCLIENTE));
-         chp.setIdProduto(rs.getInt(IDPRODUTO));
+    private Carrinho carregaCHP(ResultSet rs) throws SQLException {
+        Carrinho chp = new Carrinho();
          chp.setIdVenda(rs.getInt(IDVENDA));
+         chp.setIdProduto(rs.getInt(IDPRODUTO));
+         chp.setQuantidadeItemVenda(rs.getInt(IDVENDA));
         return chp;
     }
 
 
      @Override
     public Object findBy(String campo, Object valorProcurado){
-        Cliente_has_produto chp  = new Cliente_has_produto();
+        Carrinho chp  = new Carrinho();
         
         try{
             ConexaoBD conexao = new ConexaoBD();
@@ -152,7 +152,7 @@ public class Cliente_has_produtoController extends UnicastRemoteObject implement
             String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+"="+valor;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
-                Cliente_has_produto chp = carregaCHP(rs);
+                Carrinho chp = carregaCHP(rs);
                 listaOs.add(chp);
             }
         }catch(Exception e){
@@ -166,13 +166,13 @@ public class Cliente_has_produtoController extends UnicastRemoteObject implement
 
     
     //metodo criado pra reaproveitar o codigo no metodo create and update    
- private String preparaPS(String sql,Cliente_has_produto chs,ConexaoBD conexao){
+ private String preparaPS(String sql,Carrinho chs,ConexaoBD conexao){
        try{
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
-            ps.setInt(1, chs.getIdCliente());
+            ps.setInt(1, chs.getIdVenda());
             ps.setInt(2, chs.getIdProduto());
-            ps.setInt(2, chs.getIdVenda());
+            ps.setInt(2, chs.getQuantidadeItemVenda());
             ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
