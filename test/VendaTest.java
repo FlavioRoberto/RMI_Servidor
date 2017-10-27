@@ -94,13 +94,14 @@ public class VendaTest {
      
     
     @Test
-    public void deleteFuncionario() throws RemoteException{
+    public void deleteVenda() throws RemoteException{
         Venda venda = new Venda();
         VendaController controller = new VendaController();
         
         venda = (Venda) controller.findBy("valorTotal", 2000);
         //System.out.println(controller.delete(venda.getIdVenda()));
         assertEquals("Venda excluida!",controller.delete(venda.getIdVenda()));
+        
     }
     
        

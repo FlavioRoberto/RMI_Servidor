@@ -25,6 +25,7 @@ import rmi.Model.Venda;
  *
  * @author Admin
  */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CarrinhoTeste {
    
     public CarrinhoTeste() {
@@ -73,7 +74,7 @@ public class CarrinhoTeste {
     }
    
     @Test
-    public void EditaVenda() throws RemoteException {
+    public void EditaCarrinho() throws RemoteException {
         Carrinho carrinho = new Carrinho();
         ProdutoController pController = new ProdutoController();
         CarrinhoController controller = new CarrinhoController();
@@ -89,7 +90,7 @@ public class CarrinhoTeste {
      
     
     @Test
-    public void deleteFuncionario() throws RemoteException{
+    public void RemoveCarrinho() throws RemoteException{
         Carrinho carrinho = new Carrinho();
         CarrinhoController controller = new CarrinhoController();
         
