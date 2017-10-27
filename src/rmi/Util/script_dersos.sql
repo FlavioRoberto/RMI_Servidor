@@ -44,13 +44,14 @@ create table venda(
 	idVenda int not null auto_increment primary key,
 	idCliente int not null,
 	idFuncionario int not null,
+        confirmado boolean not null default false,
     dataVenda date not null,
     valorTotal float,
     constraint FK_VENDA_CLIENTE 
     foreign key (idCliente) references cliente(idCliente),
     constraint FK_VENDA_FUNCIONARIO
     foreign key (idFuncionario) references funcionario(idFuncionario)
-);  
+); 
 
 
 create table carrinho(

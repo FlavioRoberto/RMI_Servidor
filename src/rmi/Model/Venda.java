@@ -15,6 +15,7 @@ import java.util.Date;
 public class Venda implements Serializable {
     private int idVenda,idCliente,idFuncionario;
     private Date data;
+    private boolean confirmado;
     private float valorTotal;
 
     public int getIdVenda() {
@@ -57,6 +58,14 @@ public class Venda implements Serializable {
 
     public void setValorTotal(float valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public boolean isConfirmado() {
+        return confirmado;
+    }
+
+    public void setConfirmado(boolean confirmado) {
+        this.confirmado = confirmado;
     }
     
     

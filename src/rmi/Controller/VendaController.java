@@ -24,7 +24,7 @@ import rmi.Model.Venda;
  */
 public class VendaController extends UnicastRemoteObject implements IControllerBase{
      
-    private final String TABELA="venda",ID = "idVenda",ID_CLIENTE="idCliente",ID_FUNCIONARIO="idFuncionario",DATA="dataVenda",
+    private final String TABELA="venda",ID = "idVenda",ID_CLIENTE="idCliente",ID_FUNCIONARIO="idFuncionario",DATA="dataVenda",CONFIRMADO="confirmado",
             VALOR_TOTAL="valorTotal";
 
     public VendaController() throws RemoteException{}
@@ -36,12 +36,13 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "INSERT INTO venda("+ID_CLIENTE+","+ID_FUNCIONARIO+","+DATA+","+VALOR_TOTAL+") VALUES (?,?,?,?) ";
+            String sql = "INSERT INTO venda("+ID_CLIENTE+","+ID_FUNCIONARIO+","+DATA+","+VALOR_TOTAL+","+CONFIRMADO+") VALUES (?,?,?,?,?) ";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, venda.getIdCliente());
             ps.setInt(2,venda.getIdFuncionario());
             ps.setDate(3, new java.sql.Date(venda.getData().getTime()));
             ps.setFloat(4, venda.getValorTotal());
+            ps.setBoolean(5, venda.isConfirmado());
             retorno = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -86,8 +87,8 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         try{
             ConexaoBD conexao = new ConexaoBD();
             String sql = "UPDATE venda set "+ID_CLIENTE+"="+venda.getIdCliente()+","+ID_FUNCIONARIO+"="
-                    +venda.getIdFuncionario()+","+DATA+"="+venda.getData()+" WHERE "+VALOR_TOTAL+" = "
-                    +venda.getValorTotal();
+                    +venda.getIdFuncionario()+","+DATA+"="+venda.getData()+","+VALOR_TOTAL+" = "
+                    +venda.getValorTotal()+","+CONFIRMADO+"="+venda.isConfirmado()+" WHERE "+ID+" = "+venda.getIdVenda();
             
             conexao.sentenca.execute(sql);
             Conexao.closeConection(conexao);
@@ -137,6 +138,7 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
         venda.setIdCliente(rs.getInt(ID_CLIENTE));
         venda.setIdFuncionario(rs.getInt(ID_FUNCIONARIO));
         venda.setValorTotal(rs.getFloat(VALOR_TOTAL));
+        venda.setConfirmado(rs.getBoolean(CONFIRMADO));
         return venda;        
     }
     
