@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import rmi.Interface.IControllerBase;
+import rmi.Model.OrdemServico;
 import rmi.Model.Servico;
 import rmi.Util.ConexaoBD;
 
@@ -23,7 +24,7 @@ import rmi.Util.ConexaoBD;
  */
 public class ServicoController extends UnicastRemoteObject implements IControllerBase{
 
-    private final String IDSERVICO = "idServico",DESCRICAO = "descricao",TABELA = "servico";
+    private final String IDSERVICO = "idServico",DESCRICAO = "descricaoServico",TABELA = "servico";
     
     public ServicoController() throws RemoteException {
     }
@@ -40,7 +41,7 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
             ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
-            return "Ordem de serviço atualizada!";
+            return "Servico atualizado!";
        }catch(SQLException e){
            return ("Erro: \n"+e.getMessage());
        }
@@ -49,16 +50,18 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
  
     @Override
     public String create(Object ordemServicoObj) {
-        Servico servico = (Servico)ordemServicoObj;
-       int retorno = 0;
-       String erro = "";
+       Servico servico = (Servico)ordemServicoObj;
+        String erro = "";
           
         try{
             ConexaoBD conexao = new ConexaoBD();
             String sql ="INSERT INTO "+TABELA+"("+DESCRICAO+") VALUES (?)";
-            conexao.sentenca.execute(sql);
+            PreparedStatement ps = conexao.connection.prepareStatement(sql);
+            ps.setString(1, servico.getDescricao());
+            ps.executeUpdate();
+            ps.close();
            // Conexao.closeConection(conexao);
-            return erro = "Ordem de serviço cadastrada!";
+            return erro = "Serviço cadastrado!";
             
         }catch(Exception e){
             erro += "Erro: \n"+e.getMessage();
@@ -120,7 +123,7 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
             ps.close();
             Conexao.closeConection(conexao);
             
-            return "Ordem de serviço removida!";
+            return "Serviço removido!";
         }catch(SQLException e){
             erro += "Erro: \n"+e.getMessage();
         }catch(Exception e){
