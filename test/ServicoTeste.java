@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import rmi.Controller.ProdutoController;
 import rmi.Controller.ServicoController;
 
@@ -31,6 +33,8 @@ import rmi.Model.Venda;
  *
  * @author Admin
  */
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ServicoTeste {
    
     public ServicoTeste() {
@@ -77,7 +81,7 @@ public class ServicoTeste {
     }
    
     @Test
-    public void EditaProduto() throws RemoteException {
+    public void editaServico() throws RemoteException {
         Servico servico ;
         ServicoController controller = new ServicoController();
         
@@ -93,13 +97,13 @@ public class ServicoTeste {
      
     
     @Test
-    public void deleteProduto() throws RemoteException{
+    public void removeServico() throws RemoteException{
         Servico servico = new Servico();
         ServicoController controller = new ServicoController();
         
         servico = (Servico) controller.findBy("descricaoServico", "Em expedição!");
         //System.out.println(controller.delete(servico.getIdServico()));
-        assertEquals("Produto removido!",controller.delete(servico.getIdServico()));
+        assertEquals("Serviço removido!",controller.delete(servico.getIdServico()));
     }
 
     Servico retornaServicoByDesc() throws RemoteException {

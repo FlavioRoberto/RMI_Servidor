@@ -57,7 +57,7 @@ public class FuncionarioTest {
     // public void hello() {}
     
     @Test
-    public Funcionario cadastraFuncionario() throws RemoteException {
+    public void cadastraFuncionario() throws RemoteException {
         Funcionario func = new Funcionario();
         FuncionarioController controller = new FuncionarioController();
         
@@ -72,11 +72,11 @@ public class FuncionarioTest {
         
         //System.out.println(controller.create(func));
         assertEquals("Inserido com sucesso",controller.create(func));
-        return func;
+        
        
     }
     
-     @Test
+    
     public Funcionario retornaFuncionarioBySalario() throws RemoteException{
         Funcionario func = new Funcionario();
         FuncionarioController controller = new FuncionarioController();
