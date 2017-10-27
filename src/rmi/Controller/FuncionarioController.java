@@ -39,13 +39,14 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         try{
            Pessoa pessoa = inserePessoaFuncionairio(funcionario);
            ConexaoBD conexao = new ConexaoBD();
+           
 
             String sql = "INSERT INTO "+TABELA+"("+ID_PESSOA+","+SALARIO+","+ESPECIALIDADE+","+SENHA+") VALUES(?,?,?,?)";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
-            ps.setFloat(1,funcionario.getSalario());
-            ps.setString(2,funcionario.getEspecialidade());
-            ps.setString(3,funcionario.getSenha());
-            ps.setInt(4,pessoa.getIdPessoa());
+            ps.setFloat(2,funcionario.getSalario());
+            ps.setString(3,funcionario.getEspecialidade());
+            ps.setString(4,funcionario.getSenha());
+            ps.setInt(1,pessoa.getIdPessoa());
             retorno = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -71,8 +72,8 @@ public class FuncionarioController extends UnicastRemoteObject implements IContr
         pessoa.setNome(funcionario.getNome());
         pessoa.setRg(funcionario.getRg());
         pessoa.setTelefone(funcionario.getTelefone());
-         pController.create(pessoa);
-         return (Pessoa)pController.findBy("cpf", pessoa.getCpf());
+        pController.create(pessoa);
+        return (Pessoa)pController.findBy("cpf", pessoa.getCpf());
  }
     
      @Override  

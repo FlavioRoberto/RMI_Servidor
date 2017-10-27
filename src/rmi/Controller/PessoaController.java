@@ -21,7 +21,7 @@ import rmi.Model.Pessoa;
  *
  * @author Admin
  */
-public class PessoaController extends UnicastRemoteObject implements IControllerBase {
+public class PessoaController extends UnicastRemoteObject  implements IControllerBase {
     
     public PessoaController() throws RemoteException{}
     
@@ -41,7 +41,7 @@ public class PessoaController extends UnicastRemoteObject implements IController
             ps.setString(2,pessoa.getCpf());
             ps.setString(3,pessoa.getRg());
             ps.setString(4,pessoa.getTelefone());
-            ps.setString(4,pessoa.getCelular());
+            ps.setString(5,pessoa.getCelular());
  
             retorno = ps.executeUpdate();
             ps.close();
@@ -171,7 +171,7 @@ public class PessoaController extends UnicastRemoteObject implements IController
             Conexao.closeConection(conexao);
             return pessoa;
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
+           // JOptionPane.showMessageDialog(null,"ERRO: \n"+e.getMessage());
            return pessoa;
         }
          
