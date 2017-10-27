@@ -90,14 +90,20 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
   @Override  
  public String update(Object clienteObject){
      Cliente cliente = (Cliente)clienteObject;
-    boolean retorno = false;
+    int retorno = 0 ;
     String erro = "";
     try{
       ConexaoBD conexao = new ConexaoBD();
-      String sql = "UPDATE FROM "+TABELA+" SET "+TIPO+"="+cliente.getTipo()+" WHERE "+ID+"="+cliente.getIdCliente();
+      String sql = "UPDATE "+TABELA+" SET "+TIPO+" = ?, "+ID_PESSOA+" = ? WHERE "+ID+" = ?;";
     //  String sql2 =  "update cliente set tipo ='"+cliente.getTipo()+"' where idCliente = "+cliente.getIdCliente()+";";
      
-      retorno = conexao.sentenca.execute(sql);
+      PreparedStatement ps = conexao.connection.prepareStatement(sql);
+      ps.setString(1,cliente.getTipo());
+      ps.setInt(2, cliente.getIdPessoa());
+      ps.setInt(3, cliente.getIdCliente());
+      retorno = ps.executeUpdate();
+      
+       ps.close();
    //   retorno = conexao.sentenca.execute(sql2);
       Conexao.closeConection(conexao);
       return "Cliente atualizado!";
@@ -105,8 +111,8 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
     }catch(Exception e){
       erro =  "Erro \n"+e.getMessage();
     }
-    if(!retorno){
-       erro = "Erro na sentença update!";         
+    if(retorno == 0){
+        erro = "Erro na sentença update!";
     }
     return erro;
 }

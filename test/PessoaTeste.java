@@ -41,25 +41,13 @@ public class PessoaTeste {
     
     @Before
     public void setUp() throws RemoteException, SQLException {
-        
-        ConexaoBD conexao = new ConexaoBD();
-        conexao.sentenca.execute("DELETE FROM  carrinho");
-        conexao.sentenca.execute("delete from  venda");
-        conexao.sentenca.execute("delete from  cliente");
-        conexao.sentenca.execute("delete from  funcionario");
-        conexao.sentenca.execute("delete from pessoa");
+        limpaBanco.execute();
         
         }
     
     @After
     public void tearDown() throws SQLException {
-        
-        ConexaoBD conexao = new ConexaoBD();
-        conexao.sentenca.execute("DELETE FROM  carrinho");
-        conexao.sentenca.execute("delete from  venda");
-        conexao.sentenca.execute("delete from  cliente");
-        conexao.sentenca.execute("delete from  funcionario");
-        conexao.sentenca.execute("delete from pessoa");
+         limpaBanco.execute();
         
     }
 
