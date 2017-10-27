@@ -65,6 +65,7 @@ public class ClienteController extends UnicastRemoteObject implements IControlle
      pessoa.setNome(cliente.getNome());
      pessoa.setRg(cliente.getRg());
      pessoa.setTelefone(cliente.getTelefone());
+     pessoa.setCelular(cliente.getCelular());
      pController.create(pessoa);
      return (Pessoa)pController.findBy("cpf", pessoa.getCpf());
  }

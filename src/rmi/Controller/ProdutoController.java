@@ -145,6 +145,7 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
     @Override
     public Object findBy(String campo, Object valorProcurado){
         Produto produto  = new Produto();
+        
         if(valorProcurado instanceof String){
             valorProcurado = "'"+valorProcurado+"'";
         }
