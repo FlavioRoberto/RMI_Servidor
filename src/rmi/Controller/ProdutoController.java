@@ -145,7 +145,9 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
     @Override
     public Object findBy(String campo, Object valorProcurado){
         Produto produto  = new Produto();
-        
+        if(valorProcurado instanceof String){
+            valorProcurado = "'"+valorProcurado+"'";
+        }
         try{
             ConexaoBD conexao = new ConexaoBD();
             String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado+";";
