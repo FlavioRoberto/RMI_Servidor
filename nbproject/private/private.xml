@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/test/CarrinhoTeste.java</file>
-            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/src/rmi/Controller/ProdutoController.java</file>
-            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/test/ProdutoTeste.java</file>
-            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/test/VendaTest.java</file>
-            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/src/rmi/Controller/CarrinhoController.java</file>
+            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/test/OrdemServicoTeste.java</file>
+            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/src/rmi/Controller/ServicoController.java</file>
+            <file>file:/C:/Users/Admin/Documents/NetBeansProjects/Sistema%20os%20RMI/RMI_Servidor/src/rmi/Controller/OrdemServicoController.java</file>
         </group>
     </open-files>
 </project-private>

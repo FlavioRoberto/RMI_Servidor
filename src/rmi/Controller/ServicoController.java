@@ -146,7 +146,7 @@ public class ServicoController extends UnicastRemoteObject implements IControlle
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+"'"+valorProcurado+"'";
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                servico = carregaServico(rs);  

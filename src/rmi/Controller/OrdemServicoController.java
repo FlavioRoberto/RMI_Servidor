@@ -25,8 +25,8 @@ import rmi.Model.OrdemServico;
 public class OrdemServicoController extends UnicastRemoteObject implements IControllerBase{
 
     
-    private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="fk_funcionario", IDSERVICOATUAL ="estado",IDVENDA = "fk_venda",
-            TABELA="ordemservico",DESCORDEM="descricaoOrdem",COMPLETADO="completado",DATAHINICIO="dataHoraInicio",DATAHFIM="dataHoraFim";
+    private final String IDOS = "idOrdemServico",DATAEXP = "dataExp", IDFUNC="idFuncionarioExecutaOS", IDSERVICOATUAL ="idServicoAtual",IDVENDA = "idVenda",
+            TABELA="ordem_servico",DESCORDEM="descricaoOrdem",COMPLETADO="completado",DATAHINICIO="dataHoraInicio",DATAHFIM="dataHoraFim";
     
     public OrdemServicoController() throws RemoteException{}    
     
@@ -36,19 +36,25 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
            
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
             //ps.setInt(5, ordemServico.getIdOrdemServico());
-           // ps.setInt(1,ordemServico.getIdOrdemServico());   
+           if(ordemServico.getIdOrdemServico() >0){
+            ps.setInt(8,ordemServico.getIdOrdemServico());   
+           }
             ps.setInt(1,ordemServico.getIdFuncionario());  
             ps.setInt(2,ordemServico.getIdVenda());      
             ps.setInt(3,ordemServico.getIdServico());  
             ps.setString(4,ordemServico.getDescricao());
             ps.setBoolean(5,ordemServico.isCompletado());
-            ps.setDate(6, (Date) ordemServico.getDataInicio());
-            ps.setDate(7, (Date) ordemServico.getDataFim());
+            ps.setDate(6, new java.sql.Date (ordemServico.getDataInicio().getTime()));
+            ps.setDate(7, new java.sql.Date( ordemServico.getDataFim().getTime()));
 
-            ps.executeUpdate();
+            int retorno =  ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
-            return "Ordem de serviço atualizada!";
+            if(retorno == 1){
+                return "Completado com sucesso!";
+            }else{
+                return "Erro na sentença";
+            }
        }catch(SQLException e){
            return ("Erro: \n"+e.getMessage());
        }
@@ -108,15 +114,15 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         try{
             ConexaoBD conexao = new ConexaoBD();
             String sql = "UPDATE "+TABELA+" SET "+IDFUNC+" = ?, "+IDVENDA+"= ?,"+IDSERVICOATUAL+"=?,"
-                    +DESCORDEM+"=?,"+COMPLETADO+"=?,"+DATAHINICIO+"=?,"+DATAHFIM+"=? WHERE "+IDOS+"="+ordemServico.getIdOrdemServico();
+                    +DESCORDEM+"=?,"+COMPLETADO+"=?,"+DATAHINICIO+"=?,"+DATAHFIM+"=? WHERE "+IDOS+"=?";
             //PreparedStatement ps = conexao.connection.prepareStatement(sql);
             erro = preparaPS(sql, ordemServico, conexao);
             Conexao.closeConection(conexao);
-        }catch(Exception e){
+          
+        }catch(SQLException e){
             erro += "Erro:\n"+e.getMessage();
         }
-        
-        return erro;
+          return erro;
     }
      
     @Override
@@ -128,11 +134,14 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
             String sql = "DELETE FROM "+TABELA+" WHERE "+IDOS+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idOrdemServico);
-            ps.executeUpdate();
+            int resposta = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
-            
-            return "Ordem de serviço removida!";
+            if(resposta == 1){
+                return "Ordem de serviço removida!";
+            }else{
+              return "Não foi possível remover";
+            }
         }catch(SQLException e){
             erro += "Erro: \n"+e.getMessage();
         }catch(Exception e){
@@ -161,6 +170,7 @@ public class OrdemServicoController extends UnicastRemoteObject implements ICont
         
         try{
             ConexaoBD conexao = new ConexaoBD();
+            
             String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){

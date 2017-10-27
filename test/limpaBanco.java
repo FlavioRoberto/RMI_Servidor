@@ -16,11 +16,13 @@ public class limpaBanco {
     
     public static void execute() throws SQLException{
         ConexaoBD conexao = new ConexaoBD();
+        conexao.sentenca.execute("delete from ordem_servico");
         conexao.sentenca.execute("DELETE FROM  carrinho");
         conexao.sentenca.execute("delete from  venda");
         conexao.sentenca.execute("delete from  cliente");
         conexao.sentenca.execute("delete from  funcionario");
         conexao.sentenca.execute("delete from pessoa");
         conexao.sentenca.execute("delete from produto");
+        conexao.sentenca.execute("delete from servico");
     }
 }

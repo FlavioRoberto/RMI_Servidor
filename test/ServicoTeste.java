@@ -24,6 +24,7 @@ import rmi.Model.Funcionario;
 
 import rmi.Model.Produto;
 import rmi.Model.Servico;
+import rmi.Model.Venda;
 
 
 /**
@@ -100,6 +101,11 @@ public class ServicoTeste {
         //System.out.println(controller.delete(servico.getIdServico()));
         assertEquals("Produto removido!",controller.delete(servico.getIdServico()));
     }
+
+    Servico retornaServicoByDesc() throws RemoteException {
+        ServicoController controller = new ServicoController();
+        return (Servico)controller.findBy("descricaoServico", "Em produção");
+      }
     
       
 }
