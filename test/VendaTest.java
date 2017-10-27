@@ -5,8 +5,10 @@
  */
 
 import Application.Conexao;
+import Application.formataData;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
+import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,18 +18,20 @@ import static org.junit.Assert.*;
 import rmi.Controller.ClienteController;
 import rmi.Controller.FuncionarioController;
 import rmi.Controller.PessoaController;
+import rmi.Controller.VendaController;
 import rmi.Model.Cliente;
 import rmi.Model.Funcionario;
 import rmi.Model.Pessoa;
+import rmi.Model.Venda;
 import rmi.Util.ConexaoBD;
 
 /**
  *
  * @author Admin
  */
-public class ClienteTest {
+public class VendaTest {
    
-    public ClienteTest() {
+    public VendaTest() {
         
     }
     
@@ -58,28 +62,24 @@ public class ClienteTest {
     // public void hello() {}
     
     @Test
-    public void cadastraCliente() throws RemoteException {
-        Cliente cliente = new Cliente();
-        ClienteController controller = new ClienteController();
+    public void cadastraVenda() throws RemoteException {
+        Venda venda = new Venda();
+        VendaController controller = new VendaController();
         
-        cliente.setCelular("celular");
-        cliente.setCpf("cpf");
-        cliente.setNome("nome");
-        cliente.setRg("RG");
-        cliente.setTelefone("telefone");
-        cliente.setTipo("tipo");
+        Funcionario func = retornaFuncionario();
+        Cliente cliente = retornaCliente();
         
+        venda.setData(formataData.dataAtual());
+        venda.setIdFuncionario(func.getIdFuncionario());
+        venda.setValorTotal(2000);
+        venda.setIdCliente(cliente.getIdCliente());
+       
         
-       // System.out.println(controller.create(cliente));
-        assertEquals("Inserido com sucesso!",controller.create(cliente));
+       // System.out.println(controller.create(venda));
+        assertEquals("Venda Cadastrada!",controller.create(venda));
        
     }
-    
-    public Cliente retornaClienteByTipo() throws RemoteException {
-        ClienteController controller = new ClienteController();
-        return (Cliente) controller.findBy("tipo", "tipo");
-    }
-    
+    /*
     @Test
     public void EditaCliente() throws RemoteException {
         Cliente cliente = new Cliente();
@@ -104,13 +104,21 @@ public class ClienteTest {
         assertEquals("Apagado com sucesso!",controller.delete(cliente.getIdPessoa()));
     }
     
+    */
+       
     
-    private Cliente consultaCliente(ClienteController controller) throws RemoteException{
-        PessoaController pController = new PessoaController();
-        Pessoa p = (Pessoa) pController.findBy("cpf","cpf" );
-        return (Cliente)controller.findBy("idPessoa",p.getIdPessoa());
+    private Funcionario retornaFuncionario() throws RemoteException{
+        FuncionarioTest funcionarioTest = new FuncionarioTest();
+        funcionarioTest.cadastraFuncionario();
+        return funcionarioTest.retornaFuncionarioBySalario();
+        
     }
-
     
-    
+    private Cliente retornaCliente() throws RemoteException{
+        
+        ClienteTest clienteTest = new ClienteTest();
+        clienteTest.cadastraCliente();
+        return clienteTest.retornaClienteByTipo();
+        
+    }
 }

@@ -40,7 +40,7 @@ public class VendaController extends UnicastRemoteObject implements IControllerB
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, venda.getIdCliente());
             ps.setInt(2,venda.getIdFuncionario());
-            ps.setDate(3, (Date) venda.getData());
+            ps.setDate(3, new java.sql.Date(venda.getData().getTime()));
             ps.setFloat(4, venda.getValorTotal());
             retorno = ps.executeUpdate();
             ps.close();

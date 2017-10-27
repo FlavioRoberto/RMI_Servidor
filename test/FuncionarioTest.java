@@ -57,7 +57,7 @@ public class FuncionarioTest {
     // public void hello() {}
     
     @Test
-    public void cadastraFuncionario() throws RemoteException {
+    public Funcionario cadastraFuncionario() throws RemoteException {
         Funcionario func = new Funcionario();
         FuncionarioController controller = new FuncionarioController();
         
@@ -72,7 +72,16 @@ public class FuncionarioTest {
         
         //System.out.println(controller.create(func));
         assertEquals("Inserido com sucesso",controller.create(func));
+        return func;
        
+    }
+    
+     @Test
+    public Funcionario retornaFuncionarioBySalario() throws RemoteException{
+        Funcionario func = new Funcionario();
+        FuncionarioController controller = new FuncionarioController();
+      
+       return func = (Funcionario)controller.findBy("salario",200);
     }
     
     @Test
@@ -103,6 +112,7 @@ public class FuncionarioTest {
         assertEquals("Funcionário removido!",controller.delete(func.getIdPessoa()));
     }
     
+   
     
     private void consultaFunc(FuncionarioController controller,Funcionario func) throws RemoteException{
         PessoaController pController = new PessoaController();
