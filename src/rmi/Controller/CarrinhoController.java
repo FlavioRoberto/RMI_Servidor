@@ -22,7 +22,7 @@ import rmi.Util.ConexaoBD;
  */
 public class CarrinhoController extends UnicastRemoteObject implements IControllerBase {
    
-    private final String TABELA = "Carrinho",IDVENDA = "idVenda",IDPRODUTO = "idProduto",QUANTIDADE = "Venda_idVenda";
+    private final String TABELA = "carrinho",ID="idCarrinho",IDVENDA = "idVenda",IDPRODUTO = "idProduto",QUANTIDADE = "quantidadeItemVenda";
 
     public CarrinhoController() throws RemoteException{
     }
@@ -36,9 +36,10 @@ public class CarrinhoController extends UnicastRemoteObject implements IControll
           
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql ="INSERT INTO"+TABELA+"("+IDVENDA+","+IDPRODUTO+""+QUANTIDADE+") VALUES (?,?,?)";
-            return erro = preparaPS(sql, chs, conexao);
-            
+            String sql ="INSERT INTO "+TABELA+"("+IDVENDA+","+IDPRODUTO+","+QUANTIDADE+") VALUES (?,?,?)";
+            erro = preparaPS(sql, chs, conexao);
+            return "Carrinho cadastrado!";
+     
         }catch(Exception e){
             erro += "Erro: \n"+e.getMessage();
         }
@@ -98,11 +99,14 @@ public class CarrinhoController extends UnicastRemoteObject implements IControll
             String sql = "DELETE FROM "+TABELA+" WHERE "+IDVENDA+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, idCliente);
-            ps.executeUpdate();
+            int concluiu = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
-            
-            return "Ordem de serviço removida!";
+            if(concluiu == 1){
+                return "Carrinho removido!";
+            }else{
+                return "Não foi possível remover.";
+            }
         }catch(SQLException e){
             erro += "Erro: \n"+e.getMessage();
         }catch(Exception e){
@@ -172,14 +176,20 @@ public class CarrinhoController extends UnicastRemoteObject implements IControll
        PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setInt(1, chs.getIdVenda());
             ps.setInt(2, chs.getIdProduto());
-            ps.setInt(2, chs.getQuantidadeItemVenda());
-            ps.executeUpdate();
+            ps.setInt(3, chs.getQuantidadeItemVenda());
+            int erro = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
-            return "Ordem de serviço atualizada!";
+           if(erro != 0){
+            return "Carrinho atualizado!";
+           }else{
+               return "erro na sentença";
+           }
        }catch(Exception e){
            return ("Erro: \n"+e.getMessage());
        }
+       
+       
        
     }
 

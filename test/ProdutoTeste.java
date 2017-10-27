@@ -22,6 +22,7 @@ import rmi.Model.Cliente;
 import rmi.Model.Funcionario;
 
 import rmi.Model.Produto;
+import rmi.Model.Venda;
 
 
 /**
@@ -29,24 +30,23 @@ import rmi.Model.Produto;
  * @author Admin
  */
 public class ProdutoTeste {
-   
+   private final String nome = "produto";
     public ProdutoTeste() {
         
     }
     
     @BeforeClass
     public static void setUpClass() throws RemoteException, SQLException {
-        limpaBanco.execute();
+        //limpaBanco.execute();
     }
     
     @AfterClass
     public static void tearDownClass() throws SQLException {
-        limpaBanco.execute();
+       // limpaBanco.execute();
     }
     
     @Before
     public void setUp() throws RemoteException, SQLException {
-       
     }
     
     @After
@@ -68,7 +68,7 @@ public class ProdutoTeste {
         produto.setNome("produto");
         produto.setPreco(200);
         produto.setQuantidade(20);
-       // System.out.println(controller.create(produto));
+       //System.out.println(controller.create(produto));
         assertEquals("Produto cadastrado!",controller.create(produto));
        
     }
@@ -80,7 +80,7 @@ public class ProdutoTeste {
         
         produto = (Produto) controller.findBy("quantidade",20);
         System.out.println(produto.getNome());
-        produto.setNome("teste");
+        produto.setPreco(300);
         //System.out.println(controller.update(produto));
         assertEquals("Produto atualizado!",controller.update(produto));
        // System.out.println(produto.getNome());
@@ -97,6 +97,5 @@ public class ProdutoTeste {
        // System.out.println(controller.delete(produto.getIdProduto()));
         assertEquals("Produto removido!",controller.delete(produto.getIdProduto()));
     }
-    
-      
+
 }

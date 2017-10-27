@@ -54,7 +54,7 @@ create table venda(
 
 
 create table carrinho(
-	idCarrinho int not null primary key,
+    idCarrinho int not null auto increment primary key ,
     idVenda int not null,
     idProduto int not null,
     quantidadeItemVenda int not null,

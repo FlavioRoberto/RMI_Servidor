@@ -30,7 +30,7 @@ import rmi.Util.ConexaoBD;
  * @author Admin
  */
 public class VendaTest {
-   
+   private float valorVenda = 2000;
     public VendaTest() {
         
     }
@@ -71,7 +71,7 @@ public class VendaTest {
         
         venda.setData(formataData.dataAtual());
         venda.setIdFuncionario(func.getIdFuncionario());
-        venda.setValorTotal(2000);
+        venda.setValorTotal(valorVenda);
         venda.setIdCliente(cliente.getIdCliente());
        
         
@@ -119,4 +119,10 @@ public class VendaTest {
         return clienteTest.retornaClienteByTipo();
         
     }
+
+    Venda retornaVendaByValorTotal() throws RemoteException {
+       VendaController controller = new VendaController();
+       return (Venda)controller.findBy("valorTotal", valorVenda);
+    }
+
 }
