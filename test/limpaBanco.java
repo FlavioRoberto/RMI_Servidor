@@ -21,5 +21,6 @@ public class limpaBanco {
         conexao.sentenca.execute("delete from  cliente");
         conexao.sentenca.execute("delete from  funcionario");
         conexao.sentenca.execute("delete from pessoa");
+        conexao.sentenca.execute("delete from produto");
     }
 }

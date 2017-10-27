@@ -25,7 +25,7 @@ import rmi.Model.Produto;
  */
 
 public class ProdutoController extends UnicastRemoteObject implements IControllerBase {
-    private final String TABELA="tabela",ID="idProduto",NOME="nome",PRECO="preco",QUANTIDADE="quantidade";
+    private final String TABELA="produto",ID="idProduto",NOME="nome",PRECO="preco",QUANTIDADE="quantidade";
     public ProdutoController()throws RemoteException{}
     
     @Override
@@ -35,10 +35,11 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
         int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "INSERT INTO "+TABELA+"("+NOME+","+PRECO+") VALUES (?,?)";
+            String sql = "INSERT INTO "+TABELA+"("+NOME+","+PRECO+","+QUANTIDADE+") VALUES (?,?,?)";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setString(1, produto.getNome());
             ps.setFloat(2, produto.getPreco());
+            ps.setInt(3, produto.getQuantidade());
             retorno =  ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -83,11 +84,12 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
        int retorno = 0;
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "UPDATE "+TABELA+" SET "+NOME+" = ?, "+PRECO+" = ? WHERE "+ID+" = ?";
+            String sql = "UPDATE "+TABELA+" SET "+NOME+" = ?, "+PRECO+" = ?,"+QUANTIDADE+"= ? WHERE "+ID+" = ?";
             PreparedStatement ps = conexao.connection.prepareStatement(sql);
             ps.setString(1, produto.getNome());
             ps.setFloat(2, produto.getPreco());
-            ps.setInt(3, produto.getIdProduto());
+            ps.setInt(3, produto.getQuantidade());
+            ps.setInt(4, produto.getIdProduto());
             retorno = ps.executeUpdate();
             ps.close();
             Conexao.closeConection(conexao);
@@ -135,6 +137,7 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
            produto.setNome(rs.getString(NOME));
                 produto.setPreco(rs.getFloat(PRECO));
                 produto.setIdProduto(rs.getInt(ID));
+                produto.setQuantidade(rs.getInt(QUANTIDADE));
            return produto;     
     }
     
@@ -145,7 +148,7 @@ public class ProdutoController extends UnicastRemoteObject implements IControlle
         
         try{
             ConexaoBD conexao = new ConexaoBD();
-            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado;
+            String sql = "SELECT * FROM "+TABELA+" WHERE "+campo.toLowerCase()+" = "+valorProcurado+";";
             ResultSet rs = conexao.sentenca.executeQuery(sql);
             while(rs.next()){
                produto = carregaProduto(rs);  

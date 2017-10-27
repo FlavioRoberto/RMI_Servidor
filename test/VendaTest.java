@@ -103,7 +103,6 @@ public class VendaTest {
         assertEquals("Venda excluida!",controller.delete(venda.getIdVenda()));
     }
     
-    
        
     
     private Funcionario retornaFuncionario() throws RemoteException{
