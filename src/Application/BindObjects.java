@@ -8,6 +8,7 @@ package Application;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
+import rmi.Controller.CarrinhoController;
 import rmi.Controller.ClienteController;
 import rmi.Controller.FuncionarioController;
 import rmi.Controller.OrdemServicoController;
@@ -29,6 +30,7 @@ public class BindObjects {
            bindPessoa(conexao);
            bindProduto(conexao);
            bindVenda(conexao);
+           bindCarrinho(conexao);
     }
 
     private static void bindFuncionario(Registry conexao) throws RemoteException, AlreadyBoundException {
@@ -60,5 +62,10 @@ public class BindObjects {
         IControllerBase objetoVenda = new VendaController();
         conexao.bind("venda", objetoVenda);
     } 
+    
+    private static void bindCarrinho(Registry conexao) throws RemoteException, AlreadyBoundException {
+        IControllerBase objetoCarrinho = new CarrinhoController();
+        conexao.bind("carrinho", objetoCarrinho);
+    }
 
 }
