@@ -79,32 +79,31 @@ public class VendaTest {
         assertEquals("Venda Cadastrada!",controller.create(venda));
        
     }
-    /*
+   
     @Test
-    public void EditaCliente() throws RemoteException {
-        Cliente cliente = new Cliente();
-        ClienteController controller = new ClienteController();
+    public void EditaVenda() throws RemoteException {
+        Venda venda = new Venda();
+        VendaController controller = new VendaController();
         
-        cliente = consultaCliente(controller);
-       
-        cliente.setTipo("tipo4");
-         
-        //System.out.println(controller.update(cliente));
-        assertEquals("Cliente atualizado!",controller.update(cliente));
+        venda = (Venda) controller.findBy("valorTotal", 2000);
+        venda.setValorTotal(3000); 
+        //System.out.println(controller.update(venda));
+        assertEquals("Venda atualizada!",controller.update(venda));
       
     }
+     
     
     @Test
     public void deleteFuncionario() throws RemoteException{
-        Cliente cliente = new Cliente();
-        ClienteController controller = new ClienteController();
+        Venda venda = new Venda();
+        VendaController controller = new VendaController();
         
-        consultaCliente(controller);
-       // System.out.println(controller.delete(cliente.getIdPessoa()));
-        assertEquals("Apagado com sucesso!",controller.delete(cliente.getIdPessoa()));
+        venda = (Venda) controller.findBy("valorTotal", 2000);
+        //System.out.println(controller.delete(venda.getIdVenda()));
+        assertEquals("Venda excluida!",controller.delete(venda.getIdVenda()));
     }
     
-    */
+    
        
     
     private Funcionario retornaFuncionario() throws RemoteException{
